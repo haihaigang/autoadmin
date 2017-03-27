@@ -1,0 +1,41 @@
+.mei-column .ant-modal-body {
+    padding: 0;
+}
+
+.mei-column-item {
+    height: 40px;
+    line-height: 40px;
+    padding-left: 15px;
+    border-bottom: 1px solid #f5f5f5;
+    -webkit-transition: background-color 500ms;
+    -moz-transition: background-color 500ms;
+    -o-transition: background-color 500ms;
+    transition: background-color 500ms;
+}
+
+.mei-column-item.dragged {
+    opacity: 0.5;
+}
+
+.mei-column-item.active {
+    color: #fff;
+    background-color: #ff8300;
+}
+
+.mei-column-item label {
+    position: inherit;
+}
+
+.mei-column-icon {
+    float: right;
+    padding: 0 15px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.mei-column-item.changing {
+    transition: background-color 2s;
+    -moz-transition: background-color 2s;
+    -webkit-transition: background-color 2s;
+    -o-transition: background-color 2s;
+}

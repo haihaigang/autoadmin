@@ -1,0 +1,37 @@
+.mei-editable {
+    position: relative;
+}
+
+.mei-editable .visible {
+    visibility: visible;
+}
+
+.mei-editable .hidden {
+    visibility: hidden;
+}
+
+.mei-editable-form {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    bottom: 1px;
+    height: 32px;
+    display: none;
+}
+
+.mei-editable-form.active {
+    display: block;
+}
+
+.mei-editable-opearte {
+    position: absolute;
+    z-index: 2;
+    right: -48px;
+    top: 0;
+}
+
+.mei-editable-opearte .anticon {
+    padding: 5px 3px;
+    font-size: 18px;
+}

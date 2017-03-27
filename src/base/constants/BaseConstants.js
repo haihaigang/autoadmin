@@ -1,0 +1,25 @@
+import keyMirror from 'keymirror';
+
+export default keyMirror({
+    QUICK_LOGIN: null,
+    CHANGE_APP: null,
+    SEARCH: null,
+    SAVE: null,
+    REMOVE: null,
+    TOGGLE_FORM_DIALOG: null,
+    TOGGLE_COLUMN_DIALOG: null,
+    TOGGLE_ADVANCE_SEARCH_DIALOG: null,
+    SAVE_COLUMN: null,
+    GET_MENU_LIST2: null,
+    RESET_DATA: null,
+    CHANGE_SAVING: null,
+    RESET_CONDITION: null,
+    CHANGE_PASSWORD: null,
+    UPDATE_FORMDATA: null,
+    CHANGE_FORMDATA: null,
+    TOGGLE_DETAIL_DIALOG: null,
+    TOGGLE_PREVIEW: null,
+    GET_LOADING: null,
+    CHANGE_SIDEBAR_STATUS: null,
+    CHANGE_CHANGE_FORMDATA_VISIBLE: null,
+});

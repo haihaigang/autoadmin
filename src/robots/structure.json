@@ -1,0 +1,19 @@
+/**
+ * 生成时间：2017.03.20 11:22:33
+ * 该文件系自动生成，手动修改可能会被替换
+ * 目录结构，从接口定义中解析出当前的目录结构
+ * 规则：
+ */
+[{
+    "module": "pintuan",
+    "template": "pintuan",
+    "desc": "拼团活动"
+}, {
+    "module": "pintuan",
+    "template": "order",
+    "desc": "拼团活动订单"
+}, {
+    "module": "user",
+    "template": "user",
+    "desc": "用户管理'"
+}]

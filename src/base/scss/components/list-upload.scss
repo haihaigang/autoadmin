@@ -1,0 +1,46 @@
+/**.mei-list-upload {
+    position: relative;
+}
+
+.mei-list-upload img.thumb {
+    width: 14px;
+    height: 14px;
+}
+
+.mei-list-upload .preview {
+    position: absolute;
+    right: 14px;
+    bottom: 0;
+    width: 200px;
+    height: 200px;
+}
+
+.mei-list-upload .preview img {
+    display: block;
+    width: 200px;
+    height: 200px;
+}**/
+.mei-list-upload {
+    position: relative;
+}
+
+.mei-list-upload img.thumb {
+    width: 26px;
+    height: 26px;
+    border: 1px solid #d9d9d9;
+    border-radius: 5px;
+}
+
+.mei-list-upload .preview {
+    position: absolute;
+    z-index: 9;
+    left: -100px;
+    bottom: -100px;
+    margin: 0 auto;
+}
+
+.mei-list-upload .preview img {
+    display: block;
+    max-width: 200px;
+    max-height: 200px;
+}

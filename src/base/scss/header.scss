@@ -1,0 +1,38 @@
+.mei-header-title {
+    position: absolute;
+    left: 0;
+    width: 136px;
+}
+
+.mei-header-title h1 {
+    text-indent: -200px;
+    overflow: hidden;
+    line-height: 48px;
+    background-image: url("../img/logo.png");
+    background-size: 90% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mei-header-avatar {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 8px;
+}
+
+.mei-header-avatar-img {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 100%;
+    text-align: center;
+    background-color: #ff8300;
+    cursor: pointer;
+}
+
+.mei-header-menu {
+    padding: 0 48px 0 136px;
+    font-size: 14px;
+    overflow-y: auto;
+}
