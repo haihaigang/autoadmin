@@ -3,6 +3,8 @@ import BaseStore from '../../../base/stores/BaseStore';
 import PintuanConstants from '../constants/PintuanConstants';
 import PintuanDispatcher from '../dispatcher/PintuanDispatcher';
 import PintuanColumns from '../columns/PintuanColumns';
+import PintuanConditions from '../conditions/PintuanConditions';
+import PintuanFormFields from '../forms/PintuanFormFields';
 
 /*
  * Store
@@ -13,6 +15,10 @@ class MainStore extends BaseStore {
 
         this.setColumns(new PintuanColumns().getColumns());
 
+        this.setConditions(new PintuanConditions().getConditions());
+
+        this.setFields(new PintuanFormFields().getFields());
+        
         // 添加自定义的事件
         // this.addAction(this._constant.GET_LOADING, (action) => {
         // });

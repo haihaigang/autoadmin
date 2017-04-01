@@ -3,7 +3,8 @@
  * 可以通过node generate-router.js自动生成
  */
 export default [
-    //abnormal/goods
+    ///pintuan
     require("./pages/pintuan/PintuanRouter.js"),
-    
+    ///systemMenu-systemmenu/list
+    require("./pages/systemmenu/SystemMenuRouter.js"),
 ];

@@ -2,7 +2,7 @@ require("../scss/components/sidebar.scss");
 
 import React from 'react';
 import { Menu, Icon } from 'antd';
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import BaseConfig from '../../config/BaseConfig';
 
 var MeiSidebar = React.createClass({

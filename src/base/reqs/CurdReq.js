@@ -76,6 +76,19 @@ class CurdReq extends BaseReq {
         req.setSuccessFn(successFn);
         req.setErrorFn(errorFn);
     }
+
+    /**
+     * 获取所有菜单，含一级、二级菜单，添加权限过滤，新接口
+     * @param successFn 成功回调
+     * @param errorFn   失败回调
+     * @return
+     */
+    getAllMenuList(successFn, errorFn) {
+        super.send({
+            url: this._host + '/menu/listAll3',
+            type: 'GET',
+        }, successFn, errorFn);
+    }
 }
 
 export default CurdReq;

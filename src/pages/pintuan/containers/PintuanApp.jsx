@@ -23,6 +23,10 @@ function getAppState() {
         dataSource: PintuanStore.getData(),
         columns: PintuanStore.getColumns(),
         pagination: PintuanStore.getPage(),
+        menu: {
+            // data: PintuanStore.getMenuData()
+            data: PintuanStore.getSubMenus()
+        },
         sidebar: {
             data: PintuanStore.getSubMenus(),
             current: PintuanStore.getCurSidebar(),
@@ -38,6 +42,7 @@ function getAppState() {
             data: PintuanStore.getColumns()
         },
         search: {
+            conditions: PintuanStore.getConditions()
         }
     };
 }
@@ -66,7 +71,7 @@ class PintuanApp extends BaseApp{
     render() {
         return(
             <div>
-                <MeiMenu/>
+                <MeiMenu {...this.state.menu} />
                 <div className="mei-container">
                     <MeiSidebar 
                         {...this.state.sidebar} 

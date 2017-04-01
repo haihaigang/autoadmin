@@ -1,6 +1,7 @@
-const FORM_TYPES ={
-	text: 'text',
-	select: 'select'
+const FORM_TYPES = {
+    TEXT: 'TEXT',
+    SELECT: 'SELECT',
+    INPUT: 'input'
 };
 
 export default FORM_TYPES;

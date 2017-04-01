@@ -16,7 +16,7 @@ import MeiMenu from '../../../base/components/MeiMenu'
 
 
 /**
- * Retrieve the current data from the [MODULE]Store
+ * Retrieve the current data from the TodoStore
  */
 function getAppState() {
     return {
@@ -29,26 +29,29 @@ function getAppState() {
             status: [MODULE]Store.getSidebarStatus()
         },
         form: {
+            title: [MODULE]Store.getTitle(),
             visible: [MODULE]Store.getFormVisible(),
             data: [MODULE]Store.getFormData(),
             isSaving: [MODULE]Store.getSaving(),
+            fields: [MODULE]Store.getFields(),
         },
         column: {
             visible: [MODULE]Store.getColumnVisible(),
             data: [MODULE]Store.getColumns()
         },
         search: {
+            conditions: [MODULE]Store.getConditions()
         }
     };
 }
 
 
 class [MODULE]App extends BaseApp{
-    constructor(props){
-        super(props);
+	constructor(props){
+		super(props);
 
-        this.state = getAppState();
-    }
+		this.state = getAppState();
+	}
 
     componentDidMount() {
         [MODULE]Store.addChangeListener(this._onChange.bind(this));

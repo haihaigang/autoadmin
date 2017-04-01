@@ -1,0 +1,78 @@
+.login {
+    background-color: #3c2e25;
+}
+
+.mei-login-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #3c2e25;
+    background-image: url(../img/bg.png);
+    background-repeat: no-repeat;
+    background-position: top right;
+    background-size: 50% auto;
+}
+
+.mei-login {
+    position: fixed;
+    top: 15%;
+    left: 50%;
+    margin-left: -229px;
+}
+
+.mei-login-logo {
+    height: 40px;
+    margin-bottom: 31px;
+    background-image: url("../img/logo.png");
+    background-size: auto 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mei-login form {
+    width: 458px;
+    padding: 34px 65px;
+    margin: 0 auto;
+    border-radius: 4px;
+    background-color: #fff;
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2);
+}
+
+.mei-login form .ant-input {
+    width: 100%;
+    border-radius: 0;
+    border: none;
+    border-bottom: 1px solid #3c2e25;
+    font-size: 14px;
+}
+
+.mei-login form .has-error .ant-input {
+    border-color: #f50;
+    box-shadow: none;
+}
+
+.mei-login .ant-form-item.vcode {
+    position: relative;
+}
+
+.mei-login .ant-form-item.vcode img {
+    position: absolute;
+    right: 0px;
+    top: 3px;
+    height: 26px;
+    cursor: pointer;
+}
+
+.mei-login-button {
+    text-align: right;
+}
+
+.mei-login-button button {
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.12), 0px 2px 2px 0px rgba(0, 0, 0, 0.24);
+    border-radius: 2px;
+    width: 94px;
+    height: 36px;
+    font-size: 14px;
+}

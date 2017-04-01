@@ -7,7 +7,8 @@
  */
 
 const fs = require('fs');
-const baseDir = './src'; //代码根目录
+const baseDir = './src/pages'; //代码根目录
+const targetDir = './src';
 const folderSep = '/'; //目录分隔符
 
 var routerTpl =
@@ -58,12 +59,12 @@ try {
 
     routers.map((item, i) => {
         routerStr += '    //' + remarks[i] + '\r\n';
-        routerStr += '    require("./' + item + '"),\r\n';
+        routerStr += '    require("./pages/' + item + '"),\r\n';
     });
 
     routerTpl = routerTpl.replace('ABC', routerStr);
 
-    fs.writeFileSync(baseDir + folderSep + 'router.js', routerTpl, 'utf8');
+    fs.writeFileSync(targetDir + folderSep + 'router.js', routerTpl, 'utf8');
 
     console.log('更新路由成功\r\n' + routerTpl);
 } catch (ex) {

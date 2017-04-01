@@ -109,7 +109,8 @@ var MeiMenu = React.createClass({
     },
 
     render() {
-        let data = this.state.menus;
+        // let data = this.state.menus;
+        let data = this.props.data;
         let currentMenu;
         let pathname = location.pathname;
         let res = {}

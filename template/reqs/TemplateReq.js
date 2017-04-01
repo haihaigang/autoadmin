@@ -1,5 +1,5 @@
 import CurdReq from '../../../base/reqs/CurdReq'
-import { CreateReq, UpdateReq, RetrieveReq, DeleteReq, DetailReq } from '../../../robots/[MODULE]/reqs/PintuanCurds';
+import { CreateReq, UpdateReq, RetrieveReq, DeleteReq, DetailReq } from '../../../robots/[MODULE]/reqs/[MODULE]Curds';
 
 /**
  * 接口

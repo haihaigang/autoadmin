@@ -1,6 +1,6 @@
 import PintuanApp from './containers/PintuanApp'
 
 export default {
-    path: '/pintuan',
+    path: '/kiwi/pintuan',
     component: PintuanApp
 }

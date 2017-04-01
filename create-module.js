@@ -5,15 +5,16 @@
  * 
  */
 const fs = require('fs');
-const baseDir = './src';
+const baseDir = './src/pages';
 const baseTempDir = './template';
 const folderSep = '/';
 const moduleFolders = [
     'actions',
     'columns',
     'components',
-    'conditinos',
+    'conditions',
     'constants',
+    'containers',
     'dispatcher',
     'forms',
     'img',
@@ -24,6 +25,7 @@ const moduleFolders = [
 
 var folderName = 'abc';
 var moduleName = "Abc";
+var moduleTitle = '';
 
 try {
     var args = process.argv.splice(2);
@@ -32,7 +34,7 @@ try {
         return;
     }
     folderName = args[0];
-    if (!/^[a-z]{1}[a-z0-9]*$/.test(folderName)) {
+    if (!/^[a-z]{1}[a-z0-9]*$/.test(folderName.toLowerCase())) {
         console.log('输入的目录名称不正确，需要字母＋数字');
         return;
     }
@@ -46,8 +48,12 @@ try {
         console.log('输入的模块名称不正确，需要字母＋数字');
         return;
     }
+    
+    if(args.length > 2){
+        moduleTitle = args[2];
+    }
 
-    const targetPath = baseDir + folderSep + folderName;
+    const targetPath = baseDir + folderSep + folderName.toLowerCase();
 
     if (fs.existsSync(targetPath)) {
         console.log('目录已存在' + targetPath);
@@ -90,6 +96,7 @@ function copyFile(fileName, sourcePath, targetPath) {
     var fileContent = fs.readFileSync(sourcePath + folderSep + fileName, 'utf8');
     fileContent = fileContent.replace(/\[ROUTERPATH\]/g, getRouterPath(folderName, moduleName));
     fileContent = fileContent.replace(/\[MODULE\]/g, moduleName);
+    fileContent = fileContent.replace(/\[MODULENAME\]/g, moduleTitle);
     fileName = fileName.replace('Template', moduleName);
     fs.writeFileSync(targetPath + folderSep + fileName, fileContent, 'utf8');
 }

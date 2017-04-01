@@ -24,6 +24,7 @@ class BaseActions {
         this.lastCondition = {}; //上次的搜索条件
         this.tick;
         this.tickNum = 0;
+        this._hasFetch = false; //是否以抓取数据
     }
 
     /**
@@ -126,11 +127,18 @@ class BaseActions {
      * 获取二级菜单数据，从本地存储中获取
      */
     getMenuList2() {
+        if(!this._hasFetch){
+            this._req.getAllMenuList((response) => {
+                Storage.set('MainMenus1',response.body.kiwi);
+            });
+            this._hasFetch = true;
+        }
         this.tickNum++;
         if (this.tick) {
             clearTimeout(this.tick);
         }
         if (this.tickNum > 20) {
+            console.log('max get getMenuList2')
             return;
         }
 
@@ -138,7 +146,7 @@ class BaseActions {
         let pathname = location.pathname;
         let res = {};
         if (!mainMenus) {
-            // this.tick = setTimeout(this.getMenuList2.bind(this), 200);
+            this.tick = setTimeout(this.getMenuList2.bind(this), 200);
             return;
         }
 
@@ -214,7 +222,7 @@ class BaseActions {
     updateFormData(key, data) {
         console.log('updateFormData ' + key)
         console.log(data);
-        if(key == '-1' && typeof data != 'object'){
+        if (key == '-1' && typeof data != 'object') {
             console.log('updateFormData error data is not object');
             return;
         }

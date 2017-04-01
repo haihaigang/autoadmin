@@ -1,4 +1,3 @@
-
 import { EventEmitter } from 'events';
 import assign from 'object-assign';
 const CHANGE_EVENT = 'change'; //自定义的store数据改变事件
@@ -22,6 +21,7 @@ class BaseStore extends EventEmitter {
         this._constant = constant; //flux常量
         this._actions = {}; //需要注册到dispatcher上的所有方法，key、value形式
 
+        this._menuData = []; //菜单的数据
         this._subMenus = []; //侧边栏菜单
         this._dataSource = []; //数据源
         this._page = 0; //当前页码
@@ -44,6 +44,9 @@ class BaseStore extends EventEmitter {
         };
         this._sidebarStatus = 1; //侧边栏的展示状态，默认1展开，0收起
         this._isChangeFormDataVisible = false; //是否显示更改form数据源提示框
+        this._conditions = []; //搜索条件的数据源
+        this._fields = []; //表单的数据源
+        this._title = undefined; //模块的名称
 
         this.setMaxListeners(30); //设置最大事件监听数
 
@@ -72,6 +75,14 @@ class BaseStore extends EventEmitter {
 
     setActions(actions) {
         this._actions = actions;
+    }
+
+    getMenuData(){
+        return this._menuData;
+    }
+
+    setMenuData(data){
+        this._menuData = data;
     }
 
     getSubMenus() {
@@ -220,12 +231,36 @@ class BaseStore extends EventEmitter {
     }
 
     getChangeFormDataVisible() {
-        
+
         return this._isChangeFormDataVisible;
     }
 
     setChangeFormDataVisible(visible) {
         this._isChangeFormDataVisible = visible;
+    }
+
+    getConditions() {
+        return this._conditions;
+    }
+
+    setConditions(conditions) {
+        this._conditions = conditions;
+    }
+
+    getFields() {
+        return this._fields;
+    }
+
+    setFields(fields) {
+        this._fields = fields;
+    }
+
+    getTitle(){
+        return this._title;
+    }
+
+    setTitle(title){
+        this._title = title;
     }
 
     emitChange() {
@@ -384,9 +419,9 @@ class BaseStore extends EventEmitter {
         this.addAction(this._constant.UPDATE_FORMDATA, (action) => {
             let formData = this.getFormData();
             let key = action.key;
-            if(key == '-1'){
+            if (key == '-1') {
                 formData = assign(formData, action.data);
-            }else{
+            } else {
                 formData[key] = action.data;
             }
             this.setFormData(formData);

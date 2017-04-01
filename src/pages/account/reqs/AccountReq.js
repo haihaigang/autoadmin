@@ -1,37 +1,35 @@
-import AccountLoginReq from "../robot/AccountLoginReq";
+import CurdReq from "../../../base/reqs/CurdReq";
+import AccountLoginReq from "../../../robots/account/reqs/AccountLoginReq";
 
-class AccountReq {
-    login() {
-        new AccountLoginReq({
-            type: 'GET'
-        }, {
-            a: 1,
-            b: 2,
-            c: 3
+class AccountReq extends CurdReq {
+    /**
+     * 获取验证码
+     */
+    createCaptcha(callback, callbackError) {
+        if(this._isLoading) return;
+
+        super.send({
+            url: this._host + '/captcha/create',
         }, function(response) {
-            console.log('success result is processing.');
-        }, function(textStatus, data) {
-            console.log('error, something wrong');
-        }).send();
+            callback && callback(response);
+        }, callbackError);
+    }
 
-        var req = new AccountLoginReq();
-        req.setOptions({
-            contentType: 'formData'
-        });
-        req.setSimpleParams('haigang@meigo.com', '123456', 9090);
-        // req.setComplexParams({
-        //     username: 'haigang@meigo.com',
-        //     password: '123456',
-        //     vcode: 9891
-        // });
-        req.setSuccessFn(function(response) {
-            console.log('success result is processing.');
-        });
-        req.setErrorFn(function(textStatus, data) {
-            console.log('error, something wrong');
-        });
-
-        req.send();
+    /**
+     * 登录
+     */
+    login(data, callback, callbackError) {
+        if(this._isLoading) return;
+        
+        super.send({
+            url: this._host + '/login',
+            data: data,
+            type: 'POST',
+            showLoading: true,
+            loadingText: '登录中……',
+        }, function(response) {
+            callback && callback(response);
+        }, callbackError);
     }
 
     logout() {

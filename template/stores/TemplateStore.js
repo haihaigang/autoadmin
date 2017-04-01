@@ -2,6 +2,8 @@ import BaseStore from '../../../base/stores/BaseStore';
 import [MODULE]Dispatcher from '../dispatcher/[MODULE]Dispatcher';
 import [MODULE]Constants from '../constants/[MODULE]Constants';
 import [MODULE]Columns from '../columns/[MODULE]Columns';
+import [MODULE]Conditions from '../conditions/[MODULE]Conditions';
+import [MODULE]FormFields from '../forms/[MODULE]FormFields';
 
 /*
  * Store
@@ -11,6 +13,12 @@ class MainStore extends BaseStore {
         super([MODULE]Dispatcher, [MODULE]Constants);
 
         this.setColumns(new [MODULE]Columns().getColumns());
+
+        this.setConditions(new [MODULE]Conditions().getConditions());
+
+        this.setFields(new [MODULE]FormFields().getFields());
+
+        this.setTitle('[MODULENAME]');
 
         // 添加自定义的事件
         // this.addAction(this._constant.GET_LOADING, (action) => {
