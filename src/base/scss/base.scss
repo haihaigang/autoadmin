@@ -25,6 +25,10 @@ body {
     color: #fff;
     background-color: #675A52;
     overflow: hidden;
+    display: -webkit-flex;
+    display: -moz-flex;
+    display: -ms-flex;
+    display: flex;
 }
 
 .mei-container {
@@ -40,8 +44,8 @@ body {
 
 .mei-content {
     position: relative;
-    width: 100%;
     margin: 8px 8px 0 8px;
+    flex: 1;
 }
 
 

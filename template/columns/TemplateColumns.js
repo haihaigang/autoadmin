@@ -1,9 +1,9 @@
 import BaseColumns from '../../../base/columns/BaseColumns'
-import COLUMNS_DATA from '../../../robots/[MODULE]/columns/[MODULE]Columns'
-import TYPES_TO_RENDERS from './[MODULE]TypesToRenders'
+import COLUMNS_DATA from '../../../robots/[MODULEPATH]/columns/[MODULE]Columns'
+import TYPES_TO_RENDERS from './[MODULEPATH]TypesToRenders'
 
 /**
- * 拼团活动的表头
+ * 列表的表头
  */
 class [MODULE]Columns extends BaseColumns {
     constructor() {
@@ -11,6 +11,9 @@ class [MODULE]Columns extends BaseColumns {
 
         this._columns = COLUMNS_DATA; //绑定自动生成的表头数据
 
+        // 添加自定义的表头对应展现形式关系表
+        this._typesToRenders = TYPES_TO_RENDERS;
+        
         // 示例，添加一个自定义的没有在自动生成中的表头信息
         // this.addColumn({
         //     title: '示例名称',
@@ -20,10 +23,7 @@ class [MODULE]Columns extends BaseColumns {
         //     type: 'text'
         // });
 
-        // 示例，添加自定义的表头对应展现形式关系表
-        // this._typesToRenders = TYPES_TO_RENDERS;
-
-        // 示例，是否需要显示操作栏
+        // 示例，是否需要显示操作栏，默认true
         // this._needOperateColumn = false;
 
         // 示例，更改某个表头的展现形式

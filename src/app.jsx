@@ -10,8 +10,7 @@ import 'moment/locale/zh-cn'
 
 import ChildRouter from './router'
 import HomeApp from './base/containers/HomeApp'
-import NotFound from './base/containers/NotFound'
-import AccountApp from './pages/account/containers/AccountApp'
+import MeiNotFound from './base/containers/MeiNotFound'
 
 //添加一些antd全局的配置
 Message.config({
@@ -22,11 +21,11 @@ ReactDom.render(
     <Router>
         <Switch>
             <Route exact path="/kiwi" component={HomeApp} />
+            <Route exact path="/kiwi/dashboard" component={HomeApp} />
             {ChildRouter.map((item, i) => (
                 <Route key={i} path={item.path} component={item.component} />
             ))}
-            <Route exact path="/kiwi/account" component={AccountApp} />
-            <Route component={NotFound}/>
+            <Route component={MeiNotFound}/>
         </Switch>
     </Router>,
     document.getElementById('mei-app')

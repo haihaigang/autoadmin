@@ -74,7 +74,8 @@ var MeiList = React.createClass({
         this.setState({ selectedRowKeys });
     },
     getClassName() {
-        return 'mei-list' + (this.props.extra ? ' ' + this.props.extra : '');
+        let name = this.props.conditions && this.props.conditions.length > 0 ? ' has-search' : ''
+        return 'mei-list' + name;
     },
     render() {
         const dataSource = this.processData(this.props.dataSource);

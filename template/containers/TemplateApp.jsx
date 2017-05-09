@@ -1,66 +1,48 @@
 //TODO 按需引入你的样式
 //require('../scss/[MODULE].scss');
-import React from 'react'
+
+import React from 'react';
 import BaseApp from '../../../base/containers/BaseApp';
 import [MODULE]Store from '../stores/[MODULE]Store';
 import [MODULE]Actions from '../actions/[MODULE]Actions';
+
 import MeiSidebar from '../../../base/components/MeiSidebar';
 import MeiSidebarBar from '../../../base/components/MeiSidebarBar';
 import MeiList from '../../../base/components/MeiList';
 import MeiPagination from '../../../base/components/MeiPagination';
 import MeiAdd from '../../../base/components/MeiAdd';
 import MeiColumn from '../../../base/components/MeiColumn';
-import MeiForm from '../../../base/components/MeiForm';
-import MeiSearch from '../../../base/components/MeiSearch';
-import MeiMenu from '../../../base/components/MeiMenu'
+import MeiMenu from '../../../base/components/MeiMenu';
+import MeiMenuFunc from '../../../base/components/MeiMenuFunc';
+import MeiChangePassword from '../../../base/components/MeiChangePassword';
 
+import [MODULE]Form from '../components/[MODULE]Form';
+import [MODULE]Detail from '../components/[MODULE]Detail';
+import [MODULE]Search from '../components/[MODULE]Search';
 
 /**
- * Retrieve the current data from the TodoStore
+ * 容器组件-[MODULE]
  */
-function getAppState() {
-    return {
-        dataSource: [MODULE]Store.getData(),
-        columns: [MODULE]Store.getColumns(),
-        pagination: [MODULE]Store.getPage(),
-        sidebar: {
-            data: [MODULE]Store.getSubMenus(),
-            current: [MODULE]Store.getCurSidebar(),
-            status: [MODULE]Store.getSidebarStatus()
-        },
-        form: {
-            title: [MODULE]Store.getTitle(),
-            visible: [MODULE]Store.getFormVisible(),
-            data: [MODULE]Store.getFormData(),
-            isSaving: [MODULE]Store.getSaving(),
-            fields: [MODULE]Store.getFields(),
-        },
-        column: {
-            visible: [MODULE]Store.getColumnVisible(),
-            data: [MODULE]Store.getColumns()
-        },
-        search: {
-            conditions: [MODULE]Store.getConditions()
-        }
-    };
-}
-
-
 class [MODULE]App extends BaseApp{
 	constructor(props){
-		super(props);
+		super(props, [MODULE]Store, [MODULE]Actions);
 
-		this.state = getAppState();
 	}
 
     componentDidMount() {
-        [MODULE]Store.addChangeListener(this._onChange.bind(this));
-        [MODULE]Actions.getMenuList2();
-        [MODULE]Actions.search();
+        super.componentDidMount();
     }
 
     componentWillUnmount() {
-        [MODULE]Store.removeChangeListener(this._onChange);
+        super.componentWillUnmount();
+    }
+
+    /**
+     * 可以添加或修改自定义的state数据
+     * @return {[type]} [description]
+     */
+    getAppState(){
+        return super.getAppState();
     }
 
     /**
@@ -69,7 +51,18 @@ class [MODULE]App extends BaseApp{
     render() {
         return(
             <div>
-                <MeiMenu/>
+                <MeiMenu
+                    {...this.state.menu}
+                    onAvatarClick={[MODULE]Actions.handleAvatarClick.bind([MODULE]Actions)}/>
+                <MeiMenuFunc
+                    visible={this.state.menuFuncVisible}
+                    onShowPassword={[MODULE]Actions.toggleChangePassword.bind([MODULE]Actions)}
+                    onLogout={[MODULE]Actions.logout.bind([MODULE]Actions)}
+                    onClear={[MODULE]Actions.handleClear.bind([MODULE]Actions)} />
+                <MeiChangePassword
+                    visible={this.state.passwordVisible}
+                    onCancel={[MODULE]Actions.toggleChangePassword.bind([MODULE]Actions, false)}
+                    onSubmit={[MODULE]Actions.changePassword.bind([MODULE]Actions)} />
                 <div className="mei-container">
                     <MeiSidebar 
                         {...this.state.sidebar} 
@@ -78,11 +71,11 @@ class [MODULE]App extends BaseApp{
                         <MeiSidebarBar 
                             {...this.state.sidebar}
                             onClick={[MODULE]Actions.changeSidebarStatus.bind([MODULE]Actions)}/>
-                        <MeiSearch 
+                        <[MODULE]Search 
                             {...this.state.search} 
                             onSearch={[MODULE]Actions.search.bind([MODULE]Actions)} />
                         <MeiList
-                            extra="has-search"
+                            {...this.state.search}
                             columns={this.state.columns}
                             dataSource={this.state.dataSource}
                             onColumnEdit={[MODULE]Actions.toggleColumnDialog.bind([MODULE]Actions,true)}
@@ -91,11 +84,18 @@ class [MODULE]App extends BaseApp{
                             {...this.state.pagination} 
                             onChange={[MODULE]Actions.search.bind([MODULE]Actions)}/>
                         <MeiAdd onClick={[MODULE]Actions.toggleFormDialog.bind([MODULE]Actions, true)}/>
-                        <MeiForm 
+                        <[MODULE]Form 
                             {...this.state.form} 
                             onSave={[MODULE]Actions.save.bind([MODULE]Actions)} 
                             onCancel={[MODULE]Actions.toggleFormDialog.bind([MODULE]Actions, false)}
-                            onDataChange={[MODULE]Actions.updateFormData.bind([MODULE]Actions)}/>
+                            onDataChange={[MODULE]Actions.updateFormData.bind([MODULE]Actions)}
+                            onFieldsChange={[MODULE]Actions.updateFieldsData.bind([MODULE]Actions)}
+                            />
+                        <[MODULE]Detail
+                            {...this.state.detail}
+                            onCancel={[MODULE]Actions.toggleDetailDialog.bind([MODULE]Actions, false)}
+                            />
+                            }
                         <MeiColumn 
                             {...this.state.column} 
                             onSave={[MODULE]Actions.saveColumn.bind([MODULE]Actions)} 
@@ -104,13 +104,6 @@ class [MODULE]App extends BaseApp{
                 </div>
             </div>
         );
-    }
-
-    /**
-     * Event handler for 'change' events coming from the [MODULE]Store
-     */
-    _onChange() {
-        this.setState(getAppState());
     }
 }
 

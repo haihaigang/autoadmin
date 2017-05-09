@@ -18,8 +18,6 @@ class BaseColumns {
         this._typesToRenders = {}; //表头对应展现形式关系表
         this._needOperateColumn = true; //是否需要显示操作栏
         this._types = COLUMN_TYPES; //表头类型表
-
-        // this.init();
     }
 
     setColumns(columns) {
@@ -36,7 +34,7 @@ class BaseColumns {
      */
     init() {
         if (!this._columns || this._columns.length == 0) {
-            console.error('_columns is empty');
+            console.error('_columns is empty at ' + this.constructor.name);
             return;
         }
 
@@ -62,10 +60,11 @@ class BaseColumns {
      */
     addRender(column) {
         let type = column.type || 'text';
+        type = type.toLowerCase();
         let render = this._typesToRenders[type];
 
         if (!render) {
-            render = TYPES_TO_RENDERS[column.type || 'text'];
+            render = TYPES_TO_RENDERS[type];
         }
 
         column.render = render;

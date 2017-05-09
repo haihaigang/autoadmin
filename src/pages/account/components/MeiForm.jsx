@@ -29,11 +29,7 @@ var App = React.createClass({
 	        ],
 	    });
 
-	    const captchaProps = this.getField('captcha', {
-			rules: [
-				{ required: true, min: 4, max: 4, message: '请输入四位的验证码' },
-	        ],
-	    });
+	    
 		const sequenceProps = this.getField('sequence', {
 			initialValue: this.props.options.sequence,
 		});
@@ -47,10 +43,6 @@ var App = React.createClass({
 			        </Form.Item>
 			        <Form.Item>
 			        	{passwordProps(<Input type="password" maxLength="20" placeholder="请输入密码" />)}
-			        </Form.Item>
-			        <Form.Item className="vcode">
-			        	{captchaProps(<Input type="text" maxLength="4" placeholder="请输入验证码" />)}
-						<img src={this.props.options.imageUrl} onClick={this.props.onCodeClick} title="点击刷新验证码" />
 			        </Form.Item>
 			        <div className="mei-login-button">
 			        	{sequenceProps(<Input type="hidden" />)}

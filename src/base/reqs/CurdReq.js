@@ -30,7 +30,7 @@ class CurdReq extends BaseReq {
         req.setSuccessFn(successFn);
         req.setErrorFn(errorFn);
 
-        req.send();
+        req.search();
     }
 
     /**
@@ -46,7 +46,7 @@ class CurdReq extends BaseReq {
         req.setSuccessFn(successFn);
         req.setErrorFn(errorFn);
 
-        req.send();
+        req.save();
     }
 
     /**
@@ -75,6 +75,8 @@ class CurdReq extends BaseReq {
         req.setComplexParams(data);
         req.setSuccessFn(successFn);
         req.setErrorFn(errorFn);
+
+        req.remove();
     }
 
     /**
@@ -84,8 +86,8 @@ class CurdReq extends BaseReq {
      * @return
      */
     getAllMenuList(successFn, errorFn) {
-        super.send({
-            url: this._host + '/menu/listAll3',
+        super.ajaxSend({
+            url: this._host + '/ruddermenu/gettree',
             type: 'GET',
         }, successFn, errorFn);
     }

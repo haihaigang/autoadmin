@@ -66,7 +66,34 @@ class BaseRobotReq extends BaseReq {
      */
     send() {
     	this.processOptions();
-        super.send(this._options, this._successFn, this._errorFn);
+        super.ajaxSend(this._options, this._successFn, this._errorFn);
+    }
+
+    /**
+     * 发送请求，追加上请求参数
+     * @return {[type]} [description]
+     */
+    save() {
+        this.processOptions();
+        super.save(this._options, this._successFn, this._errorFn);
+    }
+
+    /**
+     * 发送请求，追加上请求参数
+     * @return {[type]} [description]
+     */
+    search() {
+        this.processOptions();
+        super.search(this._options, this._successFn, this._errorFn);
+    }
+
+    /**
+     * 发送请求，追加上请求参数
+     * @return {[type]} [description]
+     */
+    remove() {
+        this.processOptions();
+        super.remove(this._options, this._successFn, this._errorFn);
     }
 
     /**
@@ -94,8 +121,9 @@ class BaseRobotReq extends BaseReq {
         if (this.name) {
             url = url.replace(':name', this.name);
         }
-        if (id) {
-            url = url.replace(':id', id);
+        
+        if (this._params && this._params.id) {
+            url = url.replace(':id', this._params.id);
         }
         return (this._isPhpHost ? this._phpHost : this._host) + url;
     }

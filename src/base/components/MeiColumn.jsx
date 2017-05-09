@@ -51,7 +51,7 @@ var App = React.createClass({
                 visible={this.props.visible}
                 onOk={this.handleSubmit}
                 onCancel={this.onCancel}>
-                <Form horizontal onDrop={this.drop} onDragOver={this.allowDrop}>
+                <Form layout="horizontal" onDrop={this.drop} onDragOver={this.allowDrop}>
                 {data.map(function (item, i) {
                     return (
                         <div id={"c"+i} 

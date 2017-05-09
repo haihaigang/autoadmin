@@ -1,5 +1,5 @@
 import CurdReq from '../../../base/reqs/CurdReq'
-import { CreateReq, UpdateReq, RetrieveReq, DeleteReq, DetailReq } from '../../../robots/[MODULE]/reqs/[MODULE]Curds';
+import { CreateReq, UpdateReq, RetrieveReq, DeleteReq, DetailReq, GetpageReq, GetdetailReq } from '../../../robots/[MODULEPATH]/reqs/[MODULE]Curds';
 
 /**
  * 接口
@@ -32,9 +32,9 @@ class Req extends CurdReq {
 
         this._createReq = CreateReq;
         this._updateReq = UpdateReq;
-        this._retrieveReq = RetrieveReq;
+        this._retrieveReq = GetpageReq;
         this._deleteReq = DeleteReq;
-        this._detailReq = DetailReq;
+        this._detailReq = GetdetailReq;
     }
 
     // TODO 自定义方法

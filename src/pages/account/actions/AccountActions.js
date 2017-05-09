@@ -2,10 +2,6 @@ import {
     Message
 }
 from 'antd'
-import {
-    browserHistory
-}
-from 'react-router'
 import AccountDispatcher from '../dispatcher/AccountDispatcher'
 import AccountConstants from '../constants/AccountConstants'
 import AccountReq from '../reqs/AccountReq'
@@ -24,9 +20,9 @@ class AccountActions extends BaseActions {
      * 获取验证码
      */
     createCaptcha(data) {
-        AccountReq.createCaptcha(function(response) {
+        this._req.createCaptcha(function(response) {
             AccountDispatcher.dispatch({
-                actionType: AccountConstants.CREATE_CAPTCHA,
+                actionType: this._constant.CREATE_CAPTCHA,
                 data: response.body
             });
         });
@@ -36,24 +32,17 @@ class AccountActions extends BaseActions {
      * 登录
      */
     login(data) {
-        AccountReq.login(data, function(response) {
+        this._req.login(data, (response) => {
             Storage.set('User', response.body);
             Cookie.set('User', response.body);//同步存储到cookie，以便多系统使用
             Storage.remove('MainMenus');
             Storage.remove('MainMenus1');
 
-            let backLink = Storage.get('BackLink');
-            let from = Tools._GET().from;
-            if (backLink) {
-                browserHistory.push(BaseConfig.PATH + backLink);
-                Storage.remove('BackLink');
-            } else if (from) {
-                location.href = decodeURIComponent(from);
-            } else {
-                browserHistory.push(BaseConfig.PATH + '/');
-            }
-
-        }, function(textStatus, data) {
+            this.dispatch({
+                actionType: this._constant.NOTICE_LOGIN_SUCCESS,
+                data: response
+            });
+        }, (textStatus, data) => {
             let message = data.message;
             if (data.status == 2002) {
                 message = '验证码错误';

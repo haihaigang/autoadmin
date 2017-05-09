@@ -27,9 +27,9 @@ var MeiSidebar = React.createClass({
                     break;
                 }
                 if(i != '1'){
-                    keys.push(data[current[i]].id.toString());
+                    keys.push(data[current[i]].value);
                 }
-                data = data[current[i]].subMenus;
+                data = data[current[i]].children;
             }
         }
 
@@ -42,24 +42,23 @@ var MeiSidebar = React.createClass({
             if(result.hasFind){
                 break;
             }
-            if(!data[i].action){
+            if(!data[i].url){
                 //忽略可能的错误数据
-                continue;
+                // continue;
             }
-            // console.log('this is i ' + level + ' ' + i)
             result[level] = i;
-            let url = data[i].action.replace('jump:', BaseConfig.PATH);
-            if (url.toLowerCase() == key.toLowerCase() && (!data[i].subMenus || data[i].subMenus.length == 0)) {
+            let url = BaseConfig.PATH + data[i].url;
+            // console.log('this is i ' + level + ' ' + i + url)
+            if (url.toLowerCase() == key.toLowerCase() && (!data[i].children || data[i].children.length == 0)) {
                 result.hasFind = true;
                 result.leafMenu = url.toLowerCase();
-                result.leafId = data[i].id.toString();
+                result.leafId = data[i].value.toString();
                 result.level = level;
-                // console.log('result ' + data[i].code + ' ' + JSON.stringify(result))
+                // console.log('result ' + data[i].value + ' ' + JSON.stringify(result))
                 break;
-                
             }
-            if (data[i].subMenus && data[i].subMenus.length > 0) {
-                this.getLastMenu(data[i].subMenus, key, result, level);
+            if (data[i].children && data[i].children.length > 0) {
+                this.getLastMenu(data[i].children, key, result, level);
             }
         }
     },
@@ -77,7 +76,7 @@ var MeiSidebar = React.createClass({
             this.getLastMenu(data, pathname, result, 0);
 
             if(result.hasFind){
-                menus = data[result['1']].subMenus;
+                menus = data[result['1']].children;
                 currentKey = result.leafId;
                 openKeys = this.getOpenKeys(result);
             }
@@ -88,17 +87,17 @@ var MeiSidebar = React.createClass({
         }
 
         const loop = data => data.map((item) => {
-            let action = item.action.replace('jump:', BaseConfig.PATH);
-            if (item.subMenus && item.subMenus.length > 0) {
+            let action = BaseConfig.PATH + item.url;
+            if (item.children && item.children.length > 0) {
                 return (
-                    <Menu.SubMenu key={item.id} title={item.name}>
-                        {loop(item.subMenus)}
+                    <Menu.SubMenu key={item.value} title={item.label}>
+                        {loop(item.children)}
                     </Menu.SubMenu>
                 );
             }
             return (
-                <Menu.Item key={item.id}>
-                    <Link to={action}>{item.name}</Link>
+                <Menu.Item key={item.value}>
+                    <Link to={action}>{item.label}</Link>
                 </Menu.Item>
             );
         });

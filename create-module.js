@@ -96,6 +96,7 @@ function copyFile(fileName, sourcePath, targetPath) {
     var fileContent = fs.readFileSync(sourcePath + folderSep + fileName, 'utf8');
     fileContent = fileContent.replace(/\[ROUTERPATH\]/g, getRouterPath(folderName, moduleName));
     fileContent = fileContent.replace(/\[MODULE\]/g, moduleName);
+    fileContent = fileContent.replace(/\[MODULEPATH\]/g, moduleName.toLowerCase());
     fileContent = fileContent.replace(/\[MODULENAME\]/g, moduleTitle);
     fileName = fileName.replace('Template', moduleName);
     fs.writeFileSync(targetPath + folderSep + fileName, fileContent, 'utf8');

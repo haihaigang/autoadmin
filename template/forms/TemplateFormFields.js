@@ -1,8 +1,8 @@
 import BaseFormFields from '../../../base/forms/BaseFormFields'
-import FIELDS_DATA from '../../../robots/[MODULE]/forms/[MODULE]FormFields'
+import FIELDS_DATA from '../../../robots/[MODULEPATH]/forms/[MODULE]FormFields'
 
 /**
- * 拼团的表单域
+ * 表单域
  */
 class [MODULE]FormFields extends BaseFormFields {
     constructor() {

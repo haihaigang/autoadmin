@@ -1,3 +1,5 @@
+import React from 'react'
+import { Message } from 'antd'
 import BaseConfig from '../../config/BaseConfig'
 import Storage from '../utils/Storage'
 import Ajax from '../utils/Ajax'
@@ -42,6 +44,7 @@ class BaseReq {
         }
 
         this.extend(options, {
+            key: 'id',
             data: {},
             logtype: 'search',
             showLoading: true,
@@ -52,12 +55,12 @@ class BaseReq {
             size: this._pageSize
         });
 
-        this.send(options, callback, function(textStatus, response) {
+        this.ajaxSend(options, callback, function(textStatus, response) {
             if (textStatus == 'Malformed') {
                 if (response.status == 204) {
-                    console.error('没有您搜索的结果');
+                    Message.error('没有您搜索的结果');
                 } else {
-                    console.error(response.message, 5);
+                    Message.error(response.message, 5);
                 }
             }
             callbackError && callbackError(textStatus, response);
@@ -84,7 +87,7 @@ class BaseReq {
             contentType: 'application/json'
         });
 
-        this.send(options, callback, function(textStatus, response) {
+        this.ajaxSend(options, callback, function(textStatus, response) {
             if (textStatus == 'Malformed') {
                 let msg = response.message;
                 let msgArr = msg.split('<BR/>');
@@ -99,9 +102,9 @@ class BaseReq {
                         }
                     })
                     let res = React.createElement('span', null, elements);
-                    console.error(res, 5);
+                    Message.error(res, 5);
                 } else {
-                    console.error(response.message || '接口校验不通过', 5);
+                    Message.error(response.message || '接口校验不通过', 5);
                 }
             }
             callbackError && callbackError(textStatus, response);
@@ -127,9 +130,9 @@ class BaseReq {
             loadingText: '删除中……',
         });
 
-        this.send(options, callback, function(textStatus, response) {
+        this.ajaxSend(options, callback, function(textStatus, response) {
             if (textStatus == 'Malformed') {
-                console.error(response.message || '删除出错', 5);
+                Message.error(response.message || '删除出错', 5);
             }
             callbackError && callbackError(textStatus, response);
         });
@@ -141,7 +144,7 @@ class BaseReq {
      * @param callback－成功回调
      * @param allbackError－失败回调
      */
-    send(options, callback, callbackError) {
+    ajaxSend(options, callback, callbackError) {
         var that = this,
             headers = {},
             loadingTip,
@@ -149,11 +152,12 @@ class BaseReq {
         that._isLoading = true;
         that._queue[options.url] = true;
 
+
         options = options || {};
         options.logtype = options.logtype || 'default';
 
         if (options.showLoading) {
-            // loadingTip = Message.loading(options.loadingText || '加载中……', 0);
+            loadingTip = Message.loading(options.loadingText || '加载中……', 0);
         }
 
         var user = Storage.get('User');
@@ -196,7 +200,7 @@ class BaseReq {
                         return;
                     }
                     if (response.status == 500 && options.showLoading) {
-                        //特殊处理接口正确返回，但返回错误码为500
+                        //特殊处理，接口200相应，但相应有500错误码
                         console.error('服务器异常');
                         if (typeof callbackError == 'function') {
                             callbackError('500', response);
@@ -217,20 +221,14 @@ class BaseReq {
 
                 if (options.key) {
                     if (options.responseKey) {
-                        that.responseKey = options.responseKey;
+                        that._responseKey = options.responseKey;
                     }
-                    var content = that.getDataWithKey(response, that.responseKey);
+                    var content = that.getDataWithKey(response, that._responseKey);
                     //若请求的列表数据，需要添加key键，用于操作栏使用
                     for (var i = 0, len = content.length; i < len; i++) {
                         content[i].okey = content[i][options.key];
                     }
                 }
-
-                // if(options.type == 'POST' && options.url.indexOf('user') != -1){
-                //     HomeStore.setQuickLoginVisible(true);
-                //     HomeStore.emitChange();
-                //     return;
-                // }
 
                 if (typeof callback == 'function') {
                     callback(response);
@@ -243,25 +241,10 @@ class BaseReq {
                 that.logged(options.logtype, textStatus, options.url);
                 delete(that._queue[options.url]);
 
-                if (jqXHR.status == 404) {
-                    if (options.type == 'POST') {
-                        HomeStore.setQuickLoginVisible(true);
-                        HomeStore.emitChange();
-                    } else {
-                        //测试约定404为退出登录了
-                        blink = blink ? blink.split('/kiwi')[1] : '/account';
-                        if (blink != '/account') {
-                            Storage.set('BackLink', blink);
-                        }
-                        // TODO 路由跳转的方法
-                        // history.push(BaseConfig.PATH + '/account');
-                        return;
-                    }
-                }
-
                 if (options.showLoading) {
                     //约定接口不正常访问，统一提示用户服务器异常
                     console.error('服务器异常。');
+                    Message.error('服务器异常。');
                 }
                 if (typeof callbackError == 'function') {
                     // callbackError(textStatus, {});

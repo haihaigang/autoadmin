@@ -1,9 +1,14 @@
 require('../scss/index.scss');
 
 import React from 'react'
+import { withRouter } from 'react-router-dom';
+import BaseApp from '../../../base/containers/BaseApp';
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
 import MeiForm from '../components/MeiForm';
+import Storage from '../../../base/utils/Storage'
+import Tools from '../../../base/utils/Tools'
+import BaseConfig from '../../../config/BaseConfig'
 
 /**
  * Retrieve the current TODO data from the TodoStore
@@ -13,29 +18,45 @@ function getAppState() {
         data: {
             imageUrl: AccountStore.getImageUrl(),
             sequence: AccountStore.getSequence()
-        }
+        },
+        isLoginSuccess: AccountStore.getLoginSuccess()
     };
 }
 
-var AccountApp = React.createClass({
+class AccountApp extends BaseApp {
+    constructor(props) {
+        super(props);
 
-    getInitialState: function () {
-        return getAppState();
-    },
+        this.state = getAppState();
+    }
 
-    componentDidMount: function () {
-        AccountStore.addChangeListener(this._onChange);
-        AccountActions.createCaptcha();
-    },
+    componentDidMount() {
+        AccountStore.addChangeListener(this._onChange.bind(this));
+    }
 
-    componentWillUnmount: function () {
+    componentWillUnmount() {
         AccountStore.removeChangeListener(this._onChange);
-    },
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if (this.state.isLoginSuccess) {
+            let backLink = Storage.get('BackLink');
+            let from = Tools._GET().from;
+            if (backLink) {
+                this.props.history.push(BaseConfig.PATH + backLink);
+                Storage.remove('BackLink');
+            } else if (from) {
+                location.href = decodeURIComponent(from);
+            } else {
+                this.props.history.push(BaseConfig.PATH + '/');
+            }
+        }
+    }
 
     /**
      * @return {object}
      */
-    render: function () {
+    render() {
         return (
             <div>
                 <div className="mei-login-bg"></div>
@@ -45,15 +66,15 @@ var AccountApp = React.createClass({
                     onCodeClick={AccountActions.createCaptcha.bind(AccountActions)}/>
             </div>
         );
-    },
+    }
 
     /**
      * Event handler for 'change' events coming from the AccountStore
      */
-    _onChange: function () {
+    _onChange() {
         this.setState(getAppState());
     }
 
-});
+}
 
 export default AccountApp;

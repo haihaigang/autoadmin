@@ -2,6 +2,17 @@ import FORM_TYPES from './FormTypes'
 
 /**
  * 表单的表单域的基类
+ *
+ * 字段如下:
+ * {
+ * 'key': '关键字',
+ * 'type': '类型',
+ * 'label': '显示名称',
+ * 'placeholder': '默认占位文字',
+ * 'data': '附加的数据',
+ * 'disabled': '是否隐藏',
+ * 'readonly': '是否只读',
+ * }
  */
 class BaseFormFields {
     constructor() {
@@ -73,6 +84,32 @@ class BaseFormFields {
                 if (item.key == key) {
                     item.type = type;
                 }
+            }
+        });
+    }
+
+    /**
+     * 隐藏某个表单域
+     * @param key 表单域的key
+     * @return
+     */
+    hideField(key) {
+        this._fields.map((item, i) => {
+            if (item.key == key) {
+                item.disabled = true;
+            }
+        });
+    }
+
+    /**
+     * 设置某个表单域为只读的
+     * @param key 表单域的key
+     * @return
+     */
+    readonlyField(key) {
+        this._fields.map((item, i) => {
+            if (item.key == key) {
+                item.readonly = true;
             }
         });
     }

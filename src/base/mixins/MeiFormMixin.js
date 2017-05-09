@@ -11,23 +11,17 @@ const MeiFormMixin = {
             return getFieldDecorator(key, option);
         }
     },
+
     formItemLayout: {
         labelCol: { span: 6 },
         wrapperCol: { span: 14 }
-    }
+    },
 
-    // componentDidMount: function() {
-    //  console.log('MeiFormMixin componentDidMount')
-    //     CommonStore.addResetFormListener(this.onResetForm);
-    // },
-    // componentWillUnmount: function() {
-    //  console.log('MeiFormMixin componentWillUnmount')
-    //     CommonStore.removeResetFormListener(this.onResetForm);
-    // },
-    // onResetForm: function() {
-    //  console.log('MeiFormMixin onResetForm')
-    //     this.props.form.resetFields();
-    // },
+    datePickerOpt: {
+        showTime: true,
+        format: "YYYY-MM-DD HH:mm:ss",
+        placeholder: "请选择时间",
+    }
 };
 
 export default MeiFormMixin;

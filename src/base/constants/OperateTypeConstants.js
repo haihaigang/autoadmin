@@ -13,6 +13,7 @@ const OPERATE_TYPE = {
     UP: 'up',
     DOWN: 'down',
     ENABLED: 'enabled',
+    SURE: 'sure',
     VIEW: 'view',
     VIEW1: 'view1',
     VIEW2: 'view2',

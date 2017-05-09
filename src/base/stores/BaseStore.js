@@ -1,5 +1,7 @@
 import { EventEmitter } from 'events';
 import assign from 'object-assign';
+import Storage from '../utils/Storage';
+
 const CHANGE_EVENT = 'change'; //自定义的store数据改变事件
 const RESET_CONDITION_EVENT = 'reset_condition_event'; //自定义的重置搜索条件的事件
 const RESET_FORM_EVENT = 'reset_form_event'; //自定义的重置编辑表单的事件
@@ -47,6 +49,10 @@ class BaseStore extends EventEmitter {
         this._conditions = []; //搜索条件的数据源
         this._fields = []; //表单的数据源
         this._title = undefined; //模块的名称
+        this._menuFuncVisible = false; //菜单快速功能条是否显示
+        this._passwordVisible = false; //修改密码框是否显示
+        this._isDetailVisible = false; //详情弹框是否显示
+        this._detailData = undefined; //展示详情的数据
 
         this.setMaxListeners(30); //设置最大事件监听数
 
@@ -77,11 +83,11 @@ class BaseStore extends EventEmitter {
         this._actions = actions;
     }
 
-    getMenuData(){
+    getMenuData() {
         return this._menuData;
     }
 
-    setMenuData(data){
+    setMenuData(data) {
         this._menuData = data;
     }
 
@@ -223,15 +229,16 @@ class BaseStore extends EventEmitter {
     }
 
     setSidebarStatus(status) {
+        Storage.set(this._constant.CHANGE_SIDEBAR_STATUS, status);
         this._sidebarStatus = status;
     }
 
     getSidebarStatus() {
-        return this._sidebarStatus;
+        let d = Storage.get(this._constant.CHANGE_SIDEBAR_STATUS);
+        return typeof d == 'undefined' ? this._sidebarStatus : d;
     }
 
     getChangeFormDataVisible() {
-
         return this._isChangeFormDataVisible;
     }
 
@@ -255,14 +262,50 @@ class BaseStore extends EventEmitter {
         this._fields = fields;
     }
 
-    getTitle(){
+    getTitle() {
         return this._title;
     }
 
-    setTitle(title){
+    setTitle(title) {
         this._title = title;
     }
 
+    getMenuFuncVisible() {
+        return this._menuFuncVisible;
+    }
+
+    setMenuFuncVisible(visible) {
+        this._menuFuncVisible = visible;
+    }
+
+    getPasswordVisible() {
+        return this._passwordVisible;
+    }
+
+    setPasswordVisible(visible) {
+        this._passwordVisible = visible;
+    }
+
+    setDetailVisible(visible) {
+        this._isDetailVisible = visible;
+    }
+
+    getDetailVisible() {
+        return this._isDetailVisible;
+    }
+
+    setDetailData(data){
+        this._detailData = data;
+    }
+
+    getDetailData(){
+        return this._detailData;
+    }
+
+    /**
+     * 触发change
+     * @return {[type]} [description]
+     */
     emitChange() {
         this.emit(CHANGE_EVENT);
     }
@@ -278,7 +321,8 @@ class BaseStore extends EventEmitter {
      * @param {function} callback
      */
     removeChangeListener(callback) {
-        this.removeListener(CHANGE_EVENT, callback);
+        // this.removeListener(CHANGE_EVENT, callback);
+        this.removeAllListeners(CHANGE_EVENT);
     }
 
     emitResetCondition() {
@@ -345,7 +389,7 @@ class BaseStore extends EventEmitter {
             return;
         }
 
-        this.addAction(this._constant.QUICK_LOGIN, (action) => {
+        this.addAction(this._constant.TOGGLE_QUICK_LOGIN_DIALOG, (action) => {
             this.setQuickLoginVisible(false);
         });
         this.addAction(this._constant.GET_MENU_LIST2, (action) => {
@@ -382,11 +426,11 @@ class BaseStore extends EventEmitter {
                 this.setFormData(action.data || {});
             }
         });
-        this.addAction(this._constant.CHANGE_PASSWORD, (action) => {
-            if (this.setPasswordVisible) {
-                //？？已经存在
-                this.setPasswordVisible(action.visible);
-            }
+        this.addAction(this._constant.TOGGLE_CHANGE_PASSWORD_DIALOG, (action) => {
+            this.setPasswordVisible(action.visible);
+        });
+        this.addAction(this._constant.TOGGLE_MENU_FUNC_DIALOG, (action) => {
+            this.setMenuFuncVisible(!this._menuFuncVisible);
         });
         this.addAction(this._constant.TOGGLE_COLUMN_DIALOG, (action) => {
             this.setColumnVisible(action.visible);
@@ -445,6 +489,10 @@ class BaseStore extends EventEmitter {
         });
         this.addAction(this._constant.CHANGE_CHANGE_FORMDATA_VISIBLE, (action) => {
             this.setChangeFormDataVisible(action.visible);
+        });
+        this.addAction(this._constant.TOGGLE_DETAIL_DIALOG, (action) => {
+            this.setDetailVisible(action.visible);
+            this.setDetailData(action.data);
         });
     }
 

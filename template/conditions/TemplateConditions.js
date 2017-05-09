@@ -1,8 +1,8 @@
 import BaseConditions from '../../../base/conditions/BaseConditions'
-import CONDITIONS_DATA from '../../../robots/[MODULE]/conditions/[MODULE]Conditions'
+import CONDITIONS_DATA from '../../../robots/[MODULEPATH]/conditions/[MODULE]Conditions'
 
 /**
- * 拼团活动的搜索条件
+ * 搜索条件
  */
 class [MODULE]Conditions extends BaseConditions {
     constructor() {

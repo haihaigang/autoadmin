@@ -1,5 +1,5 @@
 import CurdReq from "../../../base/reqs/CurdReq";
-import AccountLoginReq from "../../../robots/account/reqs/AccountLoginReq";
+// import AccountLoginReq from "../../../robots/account/reqs/AccountLoginReq";
 
 class AccountReq extends CurdReq {
     /**
@@ -8,7 +8,7 @@ class AccountReq extends CurdReq {
     createCaptcha(callback, callbackError) {
         if(this._isLoading) return;
 
-        super.send({
+        super.ajaxSend({
             url: this._host + '/captcha/create',
         }, function(response) {
             callback && callback(response);
@@ -21,8 +21,8 @@ class AccountReq extends CurdReq {
     login(data, callback, callbackError) {
         if(this._isLoading) return;
         
-        super.send({
-            url: this._host + '/login',
+        super.ajaxSend({
+            url: this._host + '/security/login',
             data: data,
             type: 'POST',
             showLoading: true,

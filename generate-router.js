@@ -30,7 +30,7 @@ try {
     moduleFolders.map((file) => {
         if (file == 'account') {
             //忽略account目录，因为已经在顶级定义过
-            return
+            // return
         }
 
         const subFilePath = baseDir + folderSep + file;

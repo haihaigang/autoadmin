@@ -1,6 +1,6 @@
 import [MODULE]App from './containers/[MODULE]App'
 
 export default {
-    path: '/[ROUTERPATH]/list',
+    path: '/kiwi/[ROUTERPATH]/list',
     component: [MODULE]App
 }

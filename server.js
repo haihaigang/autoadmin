@@ -1,8 +1,9 @@
+var port = 8083;
 var WebpackDevServer = require("webpack-dev-server");
 var webpack = require("webpack");
 
-var config = require("./webpack.config.dev.js");
-config.entry.app.unshift("webpack-dev-server/client?http://0.0.0.0:8083");
+var config = require("./webpack.config.js");
+config.entry.app.unshift("webpack-dev-server/client?http://0.0.0.0:" + port);
 var compiler = webpack(config);
 
 var server = new WebpackDevServer(compiler, {
@@ -40,13 +41,14 @@ var server = new WebpackDevServer(compiler, {
 
     proxy: {
         '/api/*': {
-            target: 'http://admin.meigo.com',
+            target: 'http://106.14.239.198:8081',
             headers: {
-                host:'admin.meigo.com'
+                // host:'admin.meigo.com'
             },
             secure: false,
+            pathRewrite: { "^/api": "" },
             rewrite: function(req) {
-                //req.url = req.url.replace(/^\/api/, '');
+                req.url = req.url.replace(/^\/api/, '');
             }
         },
         '/php/*': {
@@ -62,5 +64,8 @@ var server = new WebpackDevServer(compiler, {
     }
 
 });
-server.listen(8083, "0.0.0.0", function() {});
-// server.close();
+server.listen(port, "0.0.0.0", function() {
+    console.log('----------------------------')
+    console.log('|server start on port ' + port + ' |');
+    console.log('----------------------------')
+});

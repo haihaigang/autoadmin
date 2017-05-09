@@ -1,12 +1,14 @@
 import keyMirror from 'keymirror';
 
 export default keyMirror({
-    QUICK_LOGIN: null,
+    TOGGLE_QUICK_LOGIN_DIALOG: null,
+    TOGGLE_MENU_FUNC_DIALOG: null,
     CHANGE_APP: null,
     SEARCH: null,
     SAVE: null,
     REMOVE: null,
     TOGGLE_FORM_DIALOG: null,
+    TOGGLE_DETAIL_DIALOG: null,
     TOGGLE_COLUMN_DIALOG: null,
     TOGGLE_ADVANCE_SEARCH_DIALOG: null,
     SAVE_COLUMN: null,
@@ -14,7 +16,7 @@ export default keyMirror({
     RESET_DATA: null,
     CHANGE_SAVING: null,
     RESET_CONDITION: null,
-    CHANGE_PASSWORD: null,
+    TOGGLE_CHANGE_PASSWORD_DIALOG: null,
     UPDATE_FORMDATA: null,
     CHANGE_FORMDATA: null,
     TOGGLE_DETAIL_DIALOG: null,
@@ -22,4 +24,5 @@ export default keyMirror({
     GET_LOADING: null,
     CHANGE_SIDEBAR_STATUS: null,
     CHANGE_CHANGE_FORMDATA_VISIBLE: null,
+    UPDATE_FIELDSDATA: null,
 });

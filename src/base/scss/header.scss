@@ -1,23 +1,18 @@
 .mei-header-title {
-    position: absolute;
-    left: 0;
-    width: 136px;
+    width: 158px;
 }
 
 .mei-header-title h1 {
-    text-indent: -200px;
+    font-size: 16px;
     overflow: hidden;
     line-height: 48px;
-    background-image: url("../img/logo.png");
+    text-align: center;
     background-size: 90% auto;
     background-position: center;
     background-repeat: no-repeat;
 }
 
 .mei-header-avatar {
-    position: absolute;
-    top: 0;
-    right: 0;
     padding: 8px;
 }
 
@@ -32,7 +27,7 @@
 }
 
 .mei-header-menu {
-    padding: 0 48px 0 136px;
     font-size: 14px;
     overflow-y: auto;
+    flex: 1;
 }

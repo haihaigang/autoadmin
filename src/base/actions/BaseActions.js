@@ -2,8 +2,11 @@ import {
     Message
 }
 from 'antd'
+import BaseConfig from '../../config/BaseConfig'
 import Storage from '../utils/Storage'
+import Cookie from '../utils/Cookie'
 import OPERATE_TYPE from '../constants/OperateTypeConstants'
+import CommonReq from '../reqs/CommonReq'
 
 /**
  * action的基类，主要处理curd的一些操作
@@ -30,6 +33,10 @@ class BaseActions {
     /**
      * 发布消息，调用flux的dispatcher
      * @param obj 包含type 以及一些附加data信息的对象
+     * {
+     *     actionType: '通知类型',
+     *     ...other: '附加数据'
+     * }
      */
     dispatch(obj) {
         if (!this._dispatcher) {
@@ -37,12 +44,6 @@ class BaseActions {
             return;
         }
         this._dispatcher.dispatch(obj);
-    }
-
-    emitQuickLogin() {
-        this.dispatch({
-            actionType: this._constant.QUICK_LOGIN,
-        });
     }
 
     /**
@@ -127,9 +128,9 @@ class BaseActions {
      * 获取二级菜单数据，从本地存储中获取
      */
     getMenuList2() {
-        if(!this._hasFetch){
+        if (!this._hasFetch) {
             this._req.getAllMenuList((response) => {
-                Storage.set('MainMenus1',response.body.kiwi);
+                Storage.set('MainMenus1', response.body.rootNode.children);
             });
             this._hasFetch = true;
         }
@@ -254,6 +255,11 @@ class BaseActions {
         console.log('handleOperateClick ' + type);
 
         switch (type) {
+            case OPERATE_TYPE.VIEW:
+                {
+                    this.getDetail(data.okey, true);
+                    break;
+                }
             case OPERATE_TYPE.EDIT:
                 {
                     this.getDetail(data.okey);
@@ -425,13 +431,16 @@ class BaseActions {
         this.dispatch({
             actionType: this._constant.SAVE,
         });
+
+        this.search();
     }
 
     /**
      * 获取详情
      * @param id 编号
+     * @param onlyView 仅仅查看
      */
-    getDetail(id) {
+    getDetail(id, onlyView) {
         if (typeof this._req.getDetail != 'function') {
             return;
         }
@@ -440,7 +449,7 @@ class BaseActions {
 
         const that = this;
         this._req.getDetail(id, (response) => {
-            that.afterGetDetail(response);
+            this.afterGetDetail(response, onlyView);
         }, (textStatus, data) => {
             Message.warning(data.message || '服务器异常');
         })
@@ -449,11 +458,14 @@ class BaseActions {
     /**
      * 获取详情之后，一般默认打开表单
      * @param response 详情接口的响应
+     * @param onlyView 仅仅查看
      */
-    afterGetDetail(response) {
+    afterGetDetail(response, onlyView) {
         let data = response.body;
+        let type = onlyView ? this._constant.TOGGLE_DETAIL_DIALOG : this._constant.TOGGLE_FORM_DIALOG;
+
         this.dispatch({
-            actionType: this._constant.TOGGLE_FORM_DIALOG,
+            actionType: type,
             visible: true,
             data: data,
         });
@@ -510,6 +522,100 @@ class BaseActions {
         this.dispatch({
             actionType: this._constant.CHANGE_CHANGE_FORMDATA_VISIBLE,
             visible: visible,
+        });
+    }
+
+
+    /**
+     * 更新表单域数中的某个key，约定key=-1的时候可以更新一个object
+     * @param key  数据的key
+     * @param data 对应的值
+     */
+    updateFieldsData(key, data) {
+        console.log('updateFieldsData ' + key)
+        console.log(data);
+        if (key == '-1' && typeof data != 'object') {
+            console.log('updateFieldsData error data is not object');
+            return;
+        }
+        this.dispatch({
+            actionType: this._constant.UPDATE_FIELDSDATA,
+            key: key,
+            data: data,
+        });
+    }
+
+    /**
+     * 退出登录
+     */
+    logout(data) {
+        CommonReq.logout((response) => {
+            //清除登录后保存的东西
+            Storage.remove('AccessToken');
+            Storage.remove('UserId');
+            Storage.remove('CurMainMenuId');
+            Storage.remove('User');
+            Cookie.remove('User');
+            location.href = BaseConfig.PATH + '/account';
+        });
+    }
+
+    /**
+     * 显示或隐藏修改密码弹框
+     */
+    toggleChangePassword(visible) {
+        visible = typeof visible == 'undefined' ? true : visible;
+        this.dispatch({
+            actionType: this._constant.TOGGLE_CHANGE_PASSWORD_DIALOG,
+            visible: visible,
+        });
+    }
+
+    /**
+     * 修改密码
+     */
+    changePassword(data) {
+        // 追加上用户ID
+        var user = Storage.get('User');
+        data.userId = user.id;
+
+        CommonReq.changePassword(data, (response) => {
+            this.dispatch({
+                actionType: this._constant.TOGGLE_CHANGE_PASSWORD_DIALOG,
+                visible: false,
+            });
+        }, function(textStatus, data) {
+            let message = data.message;
+            Message.error(message, 5);
+        });
+    }
+
+    /**
+     * 关闭弹出登陆框
+     */
+    closeQuickLogin() {
+        this.dispatch({
+            actionType: this._constant.TOGGLE_QUICK_LOGIN_DIALOG,
+        });
+    }
+
+    /**
+     * 清除缓存
+     */
+    handleClear() {
+        let that = this;
+        Storage.remove('MainMenus'); //一级菜单
+        Storage.remove('MainMenus1'); //一级菜单
+        Message.success('清除缓存成功！');
+    }
+
+    /**
+     * 点击用户头像
+     * @return {[type]} [description]
+     */
+    handleAvatarClick() {
+        this.dispatch({
+            actionType: this._constant.TOGGLE_MENU_FUNC_DIALOG
         });
     }
 

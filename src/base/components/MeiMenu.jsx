@@ -35,7 +35,7 @@ var MeiMenu = React.createClass({
         const menus = this.state.menus;
 
         menus.map(function(item, i){
-            item.action = item.action.replace('jump:', BaseConfig.PATH);
+            item.url =  BaseConfig.PATH + item.url;
         });
 
         return menus;
@@ -80,32 +80,32 @@ var MeiMenu = React.createClass({
                 break;
             }
 
-            if(!data[i].action){
+            if(!data[i].url){
                 //忽略可能的错误数据
                 continue;
             }
             
             result[level] = i;
-            let url = data[i].action.replace('jump:', BaseConfig.PATH);
-            if (url.toLowerCase() == key.toLowerCase() && (!data[i].subMenus || data[i].subMenus.length == 0)) {
+            let url = BaseConfig.PATH + data[i].url;
+            if (url.toLowerCase() == key.toLowerCase() && (!data[i].children || data[i].children.length == 0)) {
                 result.hasFind = true;
                 result.leafMenu = url.toLowerCase();
                 result.level = level;
                 break;
             }
-            if (data[i].subMenus && data[i].subMenus.length > 0) {
-                this.getLastMenu(data[i].subMenus, key, result, level);
+            if (data[i].children && data[i].children.length > 0) {
+                this.getLastMenu(data[i].children, key, result, level);
             }
         }
     },
 
     getFirstAction(data, i){
         let d = data[i];
-        while(d.subMenus.length > 0){
-            d = d.subMenus[0];
+        while(d.children && d.children.length > 0){
+            d = d.children[0];
         }
 
-        return d.action;
+        return d.url;
     },
 
     render() {
@@ -119,7 +119,7 @@ var MeiMenu = React.createClass({
             // data = this.getMainMenus();
             this.getLastMenu(data, pathname, res, 0);
             if(res.hasFind){
-                currentMenu = data[res['1']].id.toString();
+                currentMenu = data[res['1']].value.toString();
             }
         }
 
@@ -134,8 +134,8 @@ var MeiMenu = React.createClass({
                         mode="horizontal">
                         {data && data.map(function (item, i) {
                             let action = this.getFirstAction(data, i);
-                            action = action.replace('jump:', BaseConfig.PATH);
-                            return (<Menu.Item key={item.id}><Link to={action}>{item.name}</Link></Menu.Item>);
+                            action = BaseConfig.PATH + action;
+                            return (<Menu.Item key={item.value}><Link to={action}>{item.label}</Link></Menu.Item>);
                         }, this)}
                     </Menu>
                 </div>
