@@ -1,8 +1,17 @@
 import '../scss/components/login-list.scss';
 import React from 'react';
 import { Menu } from 'antd';
+import BaseComponent from './BaseComponent'
 
-var MeiLoginList = React.createClass({
+/**
+ * 点击头像弹出的下拉框
+ */
+class MeiMenuFunc extends BaseComponent{
+    constructor(props){
+        super(props);
+
+    }
+
     handleClick(e) {
         switch (e.key) {
             case 'clear':
@@ -22,14 +31,14 @@ var MeiLoginList = React.createClass({
                     break;
                 }
         }
-    },
+    }
     render() {
         return (
             <Menu
                 mode="vertical"
                 className="login-list"
                 style={{display: this.props.visible ? '' : 'none'}}
-                onClick={this.handleClick}
+                onClick={this.handleClick.bind(this)}
                 >
                 <Menu.Item key="clear" className="login-item">清除缓存</Menu.Item>
                 <Menu.Item key="change-password" className="login-item">修改密码</Menu.Item>
@@ -37,6 +46,6 @@ var MeiLoginList = React.createClass({
             </Menu>
         );
     }
-});
+};
 
-export default MeiLoginList;
+export default MeiMenuFunc;

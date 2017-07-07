@@ -10,6 +10,7 @@ class BaseApp extends React.Component {
         this._store = store;//flux store
         this._action = action;//flux action
 
+        // 默认容器组件都获取固定格式的state
         this.state = this.getAppState();
     }
 
@@ -18,9 +19,9 @@ class BaseApp extends React.Component {
      * @return {[type]} [description]
      */
     componentDidMount() {
-        this._store.addChangeListener(this._onChange.bind(this));
-        this._action.getMenuList2();
-        this._action.search();
+        if(this._store){
+            this._store.addChangeListener(this._onChange.bind(this));
+        }
     }
 
     /**
@@ -28,7 +29,9 @@ class BaseApp extends React.Component {
      * @return {[type]} [description]
      */
     componentWillUnmount() {
-        this._sotre.removeChangeListener(this._onChange.bind(this));
+        if(this._store){
+            this._store.removeChangeListener(this._onChange.bind(this));
+        }
     }
 
     /**
@@ -43,10 +46,15 @@ class BaseApp extends React.Component {
      * @return {[type]} [description]
      */
     getAppState() {
+        if(!this._store){
+            return;
+        }
+        
         return {
             list: {
                 dataSource: this._store.getData(),
-                columns: this._store.getColumns()
+                columns: this._store.getColumns(),
+                conditions: this._store.getConditions()
             },
             pagination: this._store.getPage(),
             menu: {
@@ -76,7 +84,8 @@ class BaseApp extends React.Component {
             },
             detail: {
                 visible: this._store.getDetailVisible(),
-                data: this._store.getDetailData()
+                data: this._store.getDetailData(),
+                store: this._store
             }
         };
     }

@@ -5,11 +5,20 @@ import {
     Modal
 }
 from 'antd'
+import BaseComponent from './BaseComponent'
 
-var App = React.createClass({
+/**
+ * 预览框组件
+ */
+class App extends BaseComponent{
+    constructor(props){
+        super(props);
+    }
+
     handleCancel(){
         this.props.onCancel('', false);
-    },
+    }
+    
     render() {
         return (
         	<Modal
@@ -23,6 +32,6 @@ var App = React.createClass({
 			</Modal>
         );
     }
-});
+};
 
 export default App;

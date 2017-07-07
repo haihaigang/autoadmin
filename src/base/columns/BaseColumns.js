@@ -7,7 +7,6 @@ import COLUMN_TYPES from './ColumnTypes'
  */
 class BaseColumns {
     constructor() {
-
         this._columns = []; //列的数据
         this._defaultOperateColumn = { //默认的操作栏
             title: '操作',
@@ -48,7 +47,7 @@ class BaseColumns {
         });
 
         if (this._needOperateColumn && !hasOperate) {
-            // 如果没有操作栏则追加上默认的操作栏
+            // 如果设置为需要操作栏且表头定义中没有操作栏则追加上默认的操作栏
             this.addRender(this._defaultOperateColumn);
             this._columns.push(this._defaultOperateColumn);
         }

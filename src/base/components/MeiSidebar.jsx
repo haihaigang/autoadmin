@@ -4,19 +4,26 @@ import React from 'react';
 import { Menu, Icon } from 'antd';
 import { Link } from 'react-router-dom'
 import BaseConfig from '../../config/BaseConfig';
+import BaseComponent from './BaseComponent'
 
-var MeiSidebar = React.createClass({
-    getInitialState() {
-        return {
+/**
+ * 侧边栏组件
+ */
+class MeiSidebar extends BaseComponent{
+    constructor(props){
+        super(props);
+
+        this.state = {
             openKeys: null
         }
-    },
+    }
+
     handleClick(e){
         this.props.onClick(e);
-    },
+    }
     getClassName(){
         return 'mei-sidebar' + (this.props.status == 0 ? ' mini' : '');
-    },
+    }
     getOpenKeys(current){
         let keys = [];
         let { data } = this.props;
@@ -34,7 +41,7 @@ var MeiSidebar = React.createClass({
         }
 
         return keys;
-    },
+    }
     getLastMenu(data, key, result, level) {
         level++;
         // console.log('start===> ' + level)
@@ -61,10 +68,10 @@ var MeiSidebar = React.createClass({
                 this.getLastMenu(data[i].children, key, result, level);
             }
         }
-    },
+    }
     handleOpenChange(keys){
         this.setState({openKeys: keys});
-    },
+    }
     render() {
         const { data } = this.props;
         let menus = [], currentKey, openKeys;
@@ -106,9 +113,9 @@ var MeiSidebar = React.createClass({
         return (
             <div className={this.getClassName()}>
                 <Menu
-                    onClick={this.handleClick}
+                    onClick={this.handleClick.bind(this)}
                     openKeys={openKeys}
-                    onOpenChange={this.handleOpenChange}
+                    onOpenChange={this.handleOpenChange.bind(this)}
                     selectedKeys={[currentKey]}
                     mode="inline"
                     >
@@ -117,6 +124,6 @@ var MeiSidebar = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default MeiSidebar;

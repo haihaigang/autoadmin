@@ -195,6 +195,7 @@ class BaseReq {
                         if (blink != '/account') {
                             Storage.set('BackLink', blink);
                         }
+                        location.href = BaseConfig.PATH + '/account';
                         // TODO
                         // history.push(BaseConfig.PATH + '/account');
                         return;

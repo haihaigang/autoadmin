@@ -5,20 +5,21 @@ import {
 from 'antd';
 import ActivityStore from '../../pintuan/stores/ActivityStore';
 import AccountReq from '../../account/req/AccountReq';
-import MeiFormMixin from '../mixins/MeiFormMixin';
+import BaseFormComponent from './BaseFormComponent'
 
 const FormItem = Form.Item;
 
-var App = React.createClass({
-    mixins: [MeiFormMixin],
-    getInitialState: function() {
-        return {
-        	visible: false,
+class App extends BaseFormComponent{
+    constructor(props){
+        super(props);
+
+        this.state = {
+            visible: false,
             imageUrl: '',
             sequence: 0,
         };
-    },
-    componentDidMount: function() {
+    }
+    componentDidMount() {
         const that = this;
         AccountReq.createCaptcha('', function(response) {
             that.setState({
@@ -27,13 +28,13 @@ var App = React.createClass({
             })
         });
         ActivityStore.addChangeListener(this.onChangeQuickLogin);  
-    },
+    }
     componentWillUnmount() {
         ActivityStore.removeChangeListener(this.onChangeQuickLogin);  
-    },
+    }
     onChangeQuickLogin(){
     	this.setState({visible: true});
-    },
+    }
     handleSubmit() {
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
@@ -44,10 +45,10 @@ var App = React.createClass({
             let formData = this.props.form.getFieldsValue();
             this.props.onSubmit(formData);
         });
-    },
+    }
     onCancel() {
         this.props.onCancel();
-    },
+    }
     checkPass(rule, value, callback) {
         const {
             validateFields
@@ -58,7 +59,7 @@ var App = React.createClass({
             });
         }
         callback();
-    },
+    }
 
     checkPass2(rule, value, callback) {
         const {
@@ -69,7 +70,7 @@ var App = React.createClass({
         } else {
             callback();
         }
-    },
+    }
     onCodeClick() {
         const that = this;
         AccountReq.createCaptcha('', function(response) {
@@ -78,7 +79,7 @@ var App = React.createClass({
                 sequence: response.body.sequence,
             })
         });
-    },
+    }
     render() {
         const loginNameProps = this.getField('loginName', {
             rules: [{
@@ -131,7 +132,7 @@ var App = React.createClass({
 			</Modal>
         );
     }
-});
+};
 
 App = Form.create()(App);
 

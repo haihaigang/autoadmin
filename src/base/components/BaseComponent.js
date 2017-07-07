@@ -34,6 +34,24 @@ class BaseComponent extends React.Component {
 
         this.props.onSearch(data);
     }
+
+    /**
+     * 点击取消，关闭模态框
+     * @return
+     */
+    handleCancel() {
+        this.props.onCancel();
+    }
+
+    /**
+     * 获取模态框的标题
+     * @param title 标题
+     * @param data  表单的数据
+     * @return
+     */
+    getTitle(title, data){
+        return data && data.id ? ('编辑' + title + '-' + data.id) : ('新增' + title);
+    }
 }
 
 export default BaseComponent;

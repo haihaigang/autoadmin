@@ -38,7 +38,7 @@ class BaseConditions {
      * @param condition 搜索条件的信息
      */
     addCondition(condition) {
-        this._conditions.push(column);
+        this._conditions.push(condition);
     }
 
     /**

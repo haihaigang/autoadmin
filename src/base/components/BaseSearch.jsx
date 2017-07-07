@@ -1,14 +1,14 @@
 require("../scss/components/search.scss");
 
 import React from 'react';
-import BaseComponent from './BaseComponent'
 import { Modal, Form, Input, Button, Checkbox, Radio, Select, Icon, Row, Col, Tree, TreeSelect, DatePicker } from 'antd';
+import BaseFormComponent from './BaseFormComponent'
 import CommonReq from '../reqs/CommonReq';
 
 /**
  * 搜索栏组件的基类
  */
-class BaseSearch extends BaseComponent{
+class BaseSearch extends BaseFormComponent{
     constructor(props) {
         super(props);
 
@@ -21,21 +21,8 @@ class BaseSearch extends BaseComponent{
     }
 
     componentDidMount() {
-        this.getAsyncData(this.props.conditions);
-    }
-
-    /**
-     * 获取antd form decorator
-     * @param key 表单的key
-     * @param option 扩展的属性
-     * @return
-     */
-    getFormField(key, option) {
-        if (this.props && this.props.form) {
-            const { getFieldDecorator } = this.props.form;
-            option = option ? option : {};
-            return getFieldDecorator(key, option);
-        }
+        // 为什么这里调用后this指向变了，需要特殊绑定下this
+        this.getAsyncData.call(this, this.props.conditions);
     }
 
     /**
@@ -44,28 +31,9 @@ class BaseSearch extends BaseComponent{
      */
     handleSubmit(e) {
         e.preventDefault();
+
         let data = this.props.form.getFieldsValue();
-
         this.props.onSearch(data);
-    }
-
-    /**
-     * 获取单选下拉框的值
-     * 约定获取数据的key=key+'Object'
-     * 从key对应的value获取值
-     * @param data 表单数据
-     * @param key 表单域的key
-     * @return 单个value
-     */
-    getSingleValue(data, key){
-        key = key + 'Object';
-
-        let result = '';
-
-        if(!data || !data[key]){
-            return result;
-        }
-        return data[key].value;
     }
 
     /**
@@ -172,27 +140,6 @@ class BaseSearch extends BaseComponent{
                     {decorator(dom)} 
                 </Col>
             );
-        });
-    }
-
-    /**
-     * 获取表单域所需要的数据
-     * @param fields 表单域的数据
-     * @return
-     */
-    getAsyncData(fields){
-        if(!fields || fields.length == 0){
-            return;
-        }
-
-        fields.map((item, i) => {
-            if((item.type == 'Object' || item.type == 'TreeSelect') && item.url){
-                // 需要获取动态数据的字段
-                CommonReq.quickSend(item.url, (response) => {
-                    item.data = response.body;
-                    // this.props.onFieldsChange(item.key, item);
-                })
-            }
         });
     }
 

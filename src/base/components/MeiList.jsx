@@ -1,32 +1,21 @@
 require("../scss/components/list.scss");
 
 import React from 'react';
-import { Table, Icon, Popconfirm } from 'antd';
-import OPERATE_TYPE from '../constants/OperateTypeConstants';
+import { Table } from 'antd';
+import BaseComponent from './BaseComponent'
 
-var MeiList = React.createClass({
-    defaultOptColumn: {
-        title: '操作',
-        key: 'operation',
-        width: '60px',
-        render(text, record) {
-            record.onOperateClick = record.onOperateClick || function(){};
-            return (
-                <span>
-                    <a 
-                        href="javascript:;"
-                        onClick={record.onOperateClick.bind(this,OPERATE_TYPE.EDIT)}>
-                        <Icon type="edit" /></a>
-                    <span className="ant-divider"></span>
-                    <Popconfirm
-                        title="您确认要删除吗？"
-                        onConfirm={record.onOperateClick.bind(this,OPERATE_TYPE.REMOVE)}>
-                        <a href="javascript:;"><Icon type="delete" /></a>
-                    </Popconfirm>
-                </span>
-            );
-        }
-    },
+/**
+ * 列表组件
+ */
+class MeiList extends BaseComponent{
+    constructor(props){
+        super(props);
+
+        this.state = {
+            selectedRowKeys: [], // 这里配置默认勾选列
+            loading: false,
+        };
+    }
 
     /**
      * 处理列表的头，
@@ -39,15 +28,11 @@ var MeiList = React.createClass({
             }
         });
 
+        // 过滤只有选中的
         columns = columns.filter(item => item.checked);
 
-        //若传递的列数据中不包含编辑栏则添加默认的操作栏
-        if (!hasOpt) {
-            columns.push(this.defaultOptColumn);
-        }
-
         return columns;
-    },
+    }
 
     /**
      * 处理数据源，添加key、添加一些绑定事件
@@ -56,27 +41,28 @@ var MeiList = React.createClass({
         var that = this;
         data.map((item, i) => {
             item.key = Math.random();
-            item.onOperateClick = function(type) { that.props.onOperateClick(item, type) };
+            item.onOperateClick = (type) => { this.props.onOperateClick(item, type) };
+            
             if(item.children && item.children.length > 0){
                 this.processData(item.children);
             }
         })
         return data;
-    },
+    }
 
-    getInitialState() {
-        return {
-            selectedRowKeys: [], // 这里配置默认勾选列
-            loading: false,
-        };
-    },
     onSelectChange(selectedRowKeys) {
         this.setState({ selectedRowKeys });
-    },
+    }
+
+    /**
+     * 处理列表追加的样式
+     * @return {[type]} [description]
+     */
     getClassName() {
         let name = this.props.conditions && this.props.conditions.length > 0 ? ' has-search' : ''
         return 'mei-list' + name;
-    },
+    }
+
     render() {
         const dataSource = this.processData(this.props.dataSource);
         const columns = this.processColumn(this.props.columns);
@@ -105,6 +91,6 @@ var MeiList = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default MeiList;

@@ -23,14 +23,18 @@ const TYPES_TO_RENDERS = {
         return text ? '是' : '否';
     },
     image(text, record) {
-        let imgSrc = BaseConfig.HOST + '/images/get/' + text;
+        if(typeof text == 'undefined' || text == null){
+            return '--';
+        }
+        
+        let imgSrc = BaseConfig.PREVIEW_HOST_IMG + '/image/' + text;
         
         if(!text){
             // 使用默认图片
             imgSrc = 'http://m.shtjzy.cn/content/images/logo.png';
         }
 
-        if(text.length > 36){
+        if(text.length > 40){
             // 约定长度小于等于36为图片ID
             imgSrc = text;
         }

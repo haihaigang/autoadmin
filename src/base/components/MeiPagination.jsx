@@ -1,29 +1,36 @@
 require('../scss/components/pagination.scss');
 
 import React from 'react';
-import {Pagination} from 'antd';
+import { Pagination } from 'antd';
+import BaseComponent from './BaseComponent'
 
-var MeiPagination = React.createClass({
-    showTotal:function(total) {
-      return '共 ' + total +' 条';
-    },
-  render() {
-    const {onChange, ...other} = this.props;
-    let visible = false;
-    if(other.total && other.total > 0){
-        visible = true;
+/**
+ * 分页组件
+ */
+class MeiPagination extends BaseComponent {
+    constructor(props) {
+        super(props);
     }
-    return (
-    	<div className="mei-footer" style={{display: visible ? 'block' : 'none'}}>
-    		<Pagination 
-                {...other}
-                showQuickJumper 
-                onChange={this.props.onChange}
-                total={other.total}
-                showTotal={this.showTotal} />
-    	</div>
-    );
-  }
-});
+
+    showTotal(total) {
+        return '共 ' + total + ' 条';
+    }
+
+    render() {
+        const { total, ...other } = this.props;
+
+        return (
+            <div
+                className="mei-footer"
+                style={{display: (total && total > 0) ? 'block' : 'none'}}>
+                <Pagination 
+                    {...other}
+                    showQuickJumper 
+                    total={total}
+                    showTotal={this.showTotal} />
+            </div>
+        );
+    }
+};
 
 export default MeiPagination;

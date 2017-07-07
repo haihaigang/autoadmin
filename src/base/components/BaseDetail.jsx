@@ -1,5 +1,5 @@
 import React from 'react';
-import BaseDialogComponent from './BaseDialogComponent';
+import BaseComponent from './BaseComponent';
 import { Modal, Form, Input, InputNumber, Select, Button, Checkbox, Radio, Tooltip, Icon, DatePicker, Tree, TreeSelect } from 'antd';
 import MeiUpload from './MeiUpload';
 import CommonReq from '../reqs/CommonReq';
@@ -10,7 +10,7 @@ const TreeNode = Tree.TreeNode;
  * 查看详情组件的基类
  * 约定为模态框形式的，
  */
-class BaseDetail extends BaseDialogComponent {
+class BaseDetail extends BaseComponent {
     constructor(props) {
     	super(props);
     	
@@ -36,7 +36,7 @@ class BaseDetail extends BaseDialogComponent {
      */
     componentDidMount() {
     	this.getAsyncData(this.props.fields);
-		this.props.store.addResetFormListener(this.onResetForm.bind(this));
+		// this.props.store.addResetFormListener(this.onResetForm.bind(this));
 	}
 
 	/**
@@ -44,7 +44,7 @@ class BaseDetail extends BaseDialogComponent {
 	 * @return {[type]} [description]
 	 */
 	componentWillUnmount() {
-		this.props.store.removeResetFormListener(this.onResetForm.bind(this));   
+		// this.props.store.removeResetFormListener(this.onResetForm.bind(this));   
 	}
 
 	/**

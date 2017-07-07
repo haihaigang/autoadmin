@@ -1,52 +1,20 @@
 require("../scss/components/menu.scss");
 
 import React from 'react';
-import {Menu, Icon} from 'antd';
-import {Link} from 'react-router-dom'
-// import CommonReq from '../req/CommonReq'
+import { Menu } from 'antd';
+import { Link } from 'react-router-dom'
 import Storage from '../utils/Storage'
 import BaseConfig from '../../config/BaseConfig'
+import BaseComponent from './BaseComponent'
 
-var MeiMenu = React.createClass({
-    getInitialState() {
-        return {
-            menus: [],
-            current: null,
-        };
-    },
-    componentDidMount() {
-        let that = this;
-        let pathname = location.pathname;
-        let mainMenus = Storage.get('MainMenus1');
+/**
+ * 菜单，头部、横排的
+ */
+class MeiMenu extends BaseComponent{
+    constructor(props){
+        super(props);
 
-        //获取一级菜单数据
-        if(mainMenus){
-            this.setState({menus: mainMenus});
-        }else{
-            // CommonReq.getAllMenuList3(function (response) {
-            //     that.setState({menus: response.body.kiwi});
-            //     Storage.set('MainMenus1',response.body.kiwi);
-            // });
-        }
-        
-    },
-
-    getMainMenus(){
-        const menus = this.state.menus;
-
-        menus.map(function(item, i){
-            item.url =  BaseConfig.PATH + item.url;
-        });
-
-        return menus;
-    },
-
-    getFirstLetter(){
-        const user = Storage.get('User');
-        if(user && user.name && user.name.length > 1){
-            return user.name.substring(0,1).toUpperCase();
-        }
-    },
+    }
 
     /**
      * 获取昵称，用于显示
@@ -71,8 +39,16 @@ var MeiMenu = React.createClass({
         }else{
             return user.name.substring(0,1).toUpperCase();
         }
-    },
+    }
 
+    /**
+     * 根据当前路径找到对应的菜单项
+     * @param data 菜单数据
+     * @param key 当前路径的关键字
+     * @param result 记录查找的结果
+     * @param level 当前查找所在的层级
+     * @return {[type]}        [description]
+     */
     getLastMenu(data, key, result, level) {
         level++;
         for (var i = 0; i < data.length; i++) {
@@ -97,8 +73,14 @@ var MeiMenu = React.createClass({
                 this.getLastMenu(data[i].children, key, result, level);
             }
         }
-    },
+    }
 
+    /**
+     * 获取子菜单下的第一个菜单的链接地址
+     * @param data 菜单数据
+     * @param i 当前菜单的序号
+     * @return {[type]}      [description]
+     */
     getFirstAction(data, i){
         let d = data[i];
         while(d.children && d.children.length > 0){
@@ -106,17 +88,19 @@ var MeiMenu = React.createClass({
         }
 
         return d.url;
-    },
+    }
 
+    /**
+     * 渲染
+     * @return {[type]} [description]
+     */
     render() {
-        // let data = this.state.menus;
         let data = this.props.data;
         let currentMenu;
         let pathname = location.pathname;
         let res = {}
 
         if(data){
-            // data = this.getMainMenus();
             this.getLastMenu(data, pathname, res, 0);
             if(res.hasFind){
                 currentMenu = data[res['1']].value.toString();
@@ -126,7 +110,7 @@ var MeiMenu = React.createClass({
         return (
             <div className="mei-header">
                 <div className="mei-header-title">
-                    <Link to="/kiwi"><h1>后台管理系统</h1></Link>
+                    <Link to={BaseConfig.PATH || ''}><h1>后台管理系统</h1></Link>
                 </div>
                 <div className="mei-header-menu">
                     <Menu
@@ -146,6 +130,6 @@ var MeiMenu = React.createClass({
             </div>
         );
     }
-});
+};
 
 export default MeiMenu;

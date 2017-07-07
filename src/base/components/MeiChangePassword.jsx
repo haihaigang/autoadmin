@@ -1,16 +1,21 @@
 import React from 'react';
-import { Modal, Form, Input, Row, Col, Button } from 'antd';
-import MeiFormMixin from '../mixins/MeiFormMixin';
+import { Modal, Form, Input } from 'antd';
+import BaseFormComponent from './BaseFormComponent';
 const FormItem = Form.Item;
 
-var App = React.createClass({
-    mixins: [MeiFormMixin],
+/**
+ * 更改密码弹框组件
+ */
+class MeiChangePassword extends BaseFormComponent{
+    constructor(props){
+        super(props);
+    }
     componentWillReceiveProps(nextProps) {
         if (typeof nextProps.visible != 'undefined' && !nextProps.visible) {
-            // 隐藏表单时候重置表单
+            // 每次重新打开表单时候都重置表单
             this.props.form.resetFields();
         }
-    },
+    }
     handleSubmit() {
         this.props.form.validateFields((errors, values) => {
             if (!!errors) {
@@ -18,23 +23,18 @@ var App = React.createClass({
                 return;
             }
 
-            let formData = this.props.form.getFieldsValue();
-            console.log(formData)
+            let formData = this.props.form.getFormFieldsValue();
             this.props.onSubmit(formData);
-
         });
-    },
-    onCancel() {
-        this.props.form.resetFields();
-        this.props.onCancel();
-    },
+    }
+    
     checkPass(rule, value, callback) {
         const { validateFields } = this.props.form;
         if (value) {
             validateFields(['rePassword'], { force: true });
         }
         callback();
-    },
+    }
 
     checkPass2(rule, value, callback) {
         const { getFieldValue } = this.props.form;
@@ -43,19 +43,19 @@ var App = React.createClass({
         } else {
             callback();
         }
-    },
+    }
     render() {
         const formItemLayout = {
             labelCol: { span: 6 },
             wrapperCol: { span: 16 }
         };
-        const oldpwdProps = this.getField('oldpwd', {
+        const oldpwdProps = this.getFormField('oldpwd', {
             rules: [
                 { required: true, message: '请输入旧密码' },
                 { validator: this.checkPass },
             ],
         });
-        const rePasswordProps = this.getField('rePassword', {
+        const rePasswordProps = this.getFormField('rePassword', {
             rules: [{
                 required: true,
                 message: '请输入确认密码',
@@ -63,7 +63,7 @@ var App = React.createClass({
                 validator: this.checkPass2,
             }]
         });
-        const newpwdProps = this.getField('newpwd', {
+        const newpwdProps = this.getFormField('newpwd', {
             rules: [
                 { required: true, message: '请输入新密码' },
             ],
@@ -72,10 +72,9 @@ var App = React.createClass({
         return (
             <Modal
                 title="修改密码"
-                wrapClassName="vertical-center-modal"
                 visible={this.props.visible}
-                onOk={this.handleSubmit}
-                onCancel={this.onCancel}>
+                onOk={this.handleSubmit.bind(this)}
+                onCancel={this.handleCancel.bind(this)}>
                 <Form layout="horizontal">
                     <FormItem
                       label="旧密码"
@@ -96,8 +95,8 @@ var App = React.createClass({
             </Modal>
         );
     }
-});
+};
 
-App = Form.create()(App);
+MeiChangePassword = Form.create()(MeiChangePassword);
 
-export default App;
+export default MeiChangePassword;

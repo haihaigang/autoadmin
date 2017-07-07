@@ -1,33 +1,21 @@
 import React from 'react';
-import BaseDialogComponent from './BaseDialogComponent';
 import { Modal, Form, Input, InputNumber, Select, Button, Checkbox, Radio, Tooltip, Icon, DatePicker, Tree, TreeSelect } from 'antd';
+import BaseFormComponent from './BaseFormComponent';
 import MeiUpload from './MeiUpload';
+import MeiFile from './MeiFile';
 import CommonReq from '../reqs/CommonReq';
 
 const TreeNode = Tree.TreeNode;
 
 /**
- * 表单组件的基类
- * 约定为模态框形式的表单，
+ * 自动表单组件的基类
+ * 包含根据表单域数据自动生成表单域
  */
-class BaseForm extends BaseDialogComponent {
+class BaseForm extends BaseFormComponent {
     constructor(props) {
     	super(props);
     	
     	this.state = {};
-
-    	// 默认的表单布局
-    	this.formItemLayout = {
-	        labelCol: { span: 6 },
-	        wrapperCol: { span: 14 }
-	    };
-
-	    // 日期的默认设置
-	    this.datePickerOpt = {
-	        showTime: true,
-	        format: "YYYY-MM-DD HH:mm:ss",
-	        placeholder: "请选择时间",
-	    };
     }
 
     /**
@@ -35,8 +23,10 @@ class BaseForm extends BaseDialogComponent {
      * @return {[type]} [description]
      */
     componentDidMount() {
-    	this.getAsyncData(this.props.fields);
-		this.props.store.addResetFormListener(this.onResetForm.bind(this));
+    	super.componentDidMount();
+
+    	// 表单组件的话试图去获取表单的结构所需的数据
+    	this.getAsyncData.call(this, this.props.fields);
 	}
 
 	/**
@@ -44,30 +34,8 @@ class BaseForm extends BaseDialogComponent {
 	 * @return {[type]} [description]
 	 */
 	componentWillUnmount() {
-		this.props.store.removeResetFormListener(this.onResetForm.bind(this));   
+    	super.componentWillUnmount();
 	}
-
-	/**
-	 * 重置表单
-	 * @return {[type]} [description]
-	 */
-	onResetForm(){
-		this.props.form.resetFields();
-	}
-
-	/**
-	 * 获取antd form decorator
-	 * @param key 表单的key
-	 * @param option 扩展的属性
-	 * @return
-	 */
-    getFormField(key, option) {
-        if (this.props && this.props.form) {
-            const { getFieldDecorator } = this.props.form;
-            option = option ? option : {};
-            return getFieldDecorator(key, option);
-        }
-    }
 
 	/**
 	 * 提交表单数据，获取formData并通知出去
@@ -87,16 +55,6 @@ class BaseForm extends BaseDialogComponent {
     	})
 
         this.props.onSave(formData);
-    }
-
-    /**
-     * 关闭模态框，重置表单
-     * @return
-     */
-    onCancel() {
-	 	this.props.form.resetFields();
-
-        super.handleCancel();
     }
 
     /**
@@ -120,7 +78,7 @@ class BaseForm extends BaseDialogComponent {
     			return decorator(<Input key={i} type="hidden" />);
     		}
     		
-    		// Number,String,Date,Bool,Enum,Objet,Id,Image,ListSelect,TreeSelect
+    		// Number,String,Date,Bool,Enum,Objet,Id,Image,File,ListSelect,TreeSelect
 	    	switch(item.type){
 	    		case 'Id': {
 	    			return decorator(<Input key={i} type="hidden" />)
@@ -161,17 +119,38 @@ class BaseForm extends BaseDialogComponent {
 					break;
 				}
 				case 'Image': {
-					let handleImageChange = (info) => {
+					const handleImageChange = (info) => {
 						let id = info.file.response.body
 						this.props.onDataChange(item.key, id);
 					};
+					const handleRemoveAloneFile = () => {
+						this.props.onDataChange(item.key, '');
+					};
 					dom = <MeiUpload
+							isCanAloneRemove={true}
 							handleImageChange={handleImageChange}
 							handleRemoveAloneFile={this.handleRemoveAloneFile}
 							dataSource={data[item.key]}
 							tip="图片尺寸：750x316"
 							disabled={item.readonly}>
 						</MeiUpload>
+					break;
+				}
+				case 'File': {
+					const handleImageChange = (info) => {
+						let id = info.file.response.body
+						this.props.onDataChange(item.key, id);
+					};
+					const handleRemoveAloneFile = () => {
+						this.props.onDataChange(item.key, '');
+					};
+					dom = <MeiFile
+							isCanAloneRemove={true}
+							handleImageChange={handleImageChange}
+							handleRemoveAloneFile={handleRemoveAloneFile}
+							dataSource={data[item.key]}
+							disabled={item.readonly}>
+						</MeiFile>
 					break;
 				}
 				case 'Object': {
@@ -306,108 +285,6 @@ class BaseForm extends BaseDialogComponent {
 		});
     }
 
-    /**
-     * 获取单选下拉框的值
-     * 约定获取数据的key=key+'Object'
-     * 从key对应的value获取值
-     * @param data 表单数据
-     * @param key 表单域的key
-     * @return 单个value
-     */
-    getSingleValue(data, key){
-    	key = key + 'Object';
-
-		let result = '';
-
-		if(!data || !data[key]){
-			return result;
-		}
-		return data[key].value;
-	}
-
-    /**
-     * 获取多选下拉框的值（或多选的树）
-     * 约定获取数据的key=key去掉最后一个字符+'Items'
-     * 如果数据含有rootNode则需要遍历获取数据
-     * @param data 表单数据
-     * @param key 表单域的key
-     * @return 数组形式的值
-     */
-    getMultipleValue(data, key){
-    	key = key.substring(0, key.length - 1) + 'Items';
-
-		let result = [];
-
-		if(!data || !data[key]){
-			return result;
-		}
-		let obj = data[key];
-		if('rootNode' in obj){
-			// 约定treeselect类型都从rootNode获取数据
-			return this.getAdvTreeValue(obj.rootNode, result);
-		}
-
-		obj.map((item, i) => {
-			let flag = false;
-			result.map((it, j) => {
-				if(item.value == it){
-					flag = true;
-				}
-			})
-			if(!flag){
-				result.push(item.value + '');
-			}
-		});
-		return result;
-	}
-
-	/**
-	 * 获取复杂的多级数结构的数据
-	 * @param data 数据
-	 * @param result 返回的值
-	 * @return
-	 */
-	getAdvTreeValue(data, result){
-		data.children.map((item) => {
-			if(item.children && item.children.length > 0){
-				this.getAdvTreeValue(item, result)
-			}
-			result.push(item.value);
-		});
-		return result;
-	}
-
-	/**
-	 * 获取表单域所需要的数据
-	 * @param fields 表单域的数据
-	 * @return
-	 */
-	getAsyncData(fields){
-		if(!fields || fields.length == 0){
-			return;
-		}
-
-		fields.map((item, i) => {
-			if((item.type == 'Object' || item.type == 'TreeSelect') && item.url){
-				// 需要获取动态数据的字段
-				CommonReq.quickSend(item.url, (response) => {
-					item.data = response.body;
-					this.props.onFieldsChange(item.key, item);
-				})
-			}
-		});
-	}
-
-	/**
-	 * 获取模态框的标题
-	 * @param title 标题
-	 * @param data  表单的数据
-	 * @return
-	 */
-	getTitle(title, data){
-		return data && data.id ? ('编辑' + title + '-' + data.id) : ('新增' + title);
-	}
-
 	/**
 	 * 组件的渲染方法
 	 * @return
@@ -418,10 +295,9 @@ class BaseForm extends BaseDialogComponent {
 		return (
 			<Modal
 				title={this.getTitle(title, data)}
-				wrapClassName="vertical-center-modal"
 			  	visible={visible}
 			  	onOk={this.handleSubmit.bind(this)}
-			  	onCancel={this.onCancel.bind(this)}>
+			  	onCancel={this.handleCancel.bind(this)}>
 			  	<Form layout='horizontal'>
 			  	{this.getFieldsItems(fields, data)}
 			  	</Form>

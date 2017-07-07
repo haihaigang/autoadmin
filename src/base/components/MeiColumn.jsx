@@ -6,20 +6,24 @@ import {
 }
 from 'antd' 
 import MeiDraggableMixin from '../mixins/MeiDraggableMixin'
+import BaseComponent from './BaseComponent'
 
-var App = React.createClass({
-    mixins: [MeiDraggableMixin],
-    getInitialState() {
-        return {
+/**
+ * 编辑表头组件
+ */
+class MeiColumn extends BaseComponent{
+    constructor(props){
+        super(props);
+        this.state = {
             data: this.props.data
-        };
-    },
+        }
+
+        this.dragClassName = 'mei-column-item';
+    }
+    
     handleSubmit() {
         this.props.onSave(this.state.data);
-    },
-    onCancel() {
-        this.props.onCancel();
-    },
+    }
     onChange(e) {
         let data = this.state.data;
         data.map(function(item, i){
@@ -28,18 +32,18 @@ var App = React.createClass({
             }
         });
         this.setState({data});
-    },
+    }
     processData(data) {
         let result = data && data.filter(item => item.key != 'operation');
         return result || [];
-    },
-    dragClassName: 'mei-column-item',
+    }
     afterDrop(data){
         this.setState({data});
-    },
+    }
     getDragData(){
         return this.state.data;
-    },
+    }
+
     render() {
         const data = this.processData(this.state.data);
         
@@ -49,8 +53,8 @@ var App = React.createClass({
                 wrapClassName="vertical-center-modal"
                 className="mei-column"
                 visible={this.props.visible}
-                onOk={this.handleSubmit}
-                onCancel={this.onCancel}>
+                onOk={this.handleSubmit.bind(this)}
+                onCancel={this.handleCancel.bind(this)}>
                 <Form layout="horizontal" onDrop={this.drop} onDragOver={this.allowDrop}>
                 {data.map(function (item, i) {
                     return (
@@ -72,8 +76,8 @@ var App = React.createClass({
             </Modal>
         );
     }
-});
+};
 
-App = Form.create()(App);
+MeiColumn = Form.create()(MeiColumn);
 
-export default App;
+export default MeiColumn;

@@ -9,7 +9,7 @@ import BaseComponent from './BaseComponent'
 
 /**
  * 
-# 管理后台图片上传组件说明
+# 管理后台文件上传组件说明
 
 ## 目的
 1. 减少代码
@@ -40,7 +40,7 @@ import BaseComponent from './BaseComponent'
 1. handleImageChange
 2. handleRemoveAloneFile
  */
-class MeiUpload extends BaseComponent{
+class MeiFile extends BaseComponent{
     constructor(props){
         super(props);
 
@@ -49,6 +49,7 @@ class MeiUpload extends BaseComponent{
             priviewImage: '',//预览的图片
             percent: 0,//上传进度，0-100
         };
+
 
         this.dragClassName = 'mei-upload-thumb';
 
@@ -64,9 +65,8 @@ class MeiUpload extends BaseComponent{
 	// 	tip: React.PropTypes.string,
 	// 	handleImageChange: React.PropTypes.func,
 	// 	handleRemoveAloneFile: React.PropTypes.func,
-	// }
-    // mixins: [MeiDraggableMixin],
-    
+	// },
+ //    mixins: [MeiDraggableMixin],
     /**
      * 打开单图模式的图片预览框
      */
@@ -84,7 +84,6 @@ class MeiUpload extends BaseComponent{
             priviewVisible: false,
         });
     }
-
     /**
      * 处理图片上传结果
      * @param info upload的图片的结果
@@ -265,19 +264,14 @@ class MeiUpload extends BaseComponent{
 
     render() {
         const { isMultiple, disabled, isCanAloneRemove, className, dataSource, tip } = this.props;
-        const uploadUrl = BaseConfig.HOST + '/images/upload';
-        const previewUrl = BaseConfig.PREVIEW_HOST_IMG + '/image/';
+        const uploadUrl = BaseConfig.HOST + '/files/upload';
+        const previewUrl = BaseConfig.PREVIEW_HOST + '/video/get/';
         let maskAloneClassName = 'mei-upload-file-list clearfix' + (isMultiple ? '' : ' mei-alone-mask') + (className ? ' ' + className : '');
         let dataImgUrl = '';
         let dataList = [];
 
         if (dataSource && typeof dataSource == "string") {
-            if(dataSource.length == 40){
-                // 约定当长度为36时表示是使用图片ID
-                dataImgUrl = previewUrl + dataSource;
-            }else{
-                dataImgUrl = dataSource;
-            }
+            dataImgUrl = previewUrl + dataSource;
         } else if (dataSource instanceof Array) {
             dataList = this.processDataSource(dataSource);
         }
@@ -285,13 +279,6 @@ class MeiUpload extends BaseComponent{
         let props = {
             name: 'file',
             action: uploadUrl,
-            beforeUpload(file) {
-                const isJPG = file.size <= 200000;
-                if (!isJPG) {
-                    Message.error('上传的图片大小不超过200K!');
-                }
-                return isJPG;
-            },
             listType: 'picture-card',
             // showUploadList: !!isMultiple,
             showUploadList: false,
@@ -360,7 +347,7 @@ class MeiUpload extends BaseComponent{
             if(isCanAloneRemove || disabled){
                 thumbComponent = 
                     <div className="mei-upload-thumb" style={{display: dataImgUrl ? '': 'none'}}>
-                        <img src={dataImgUrl} alt=""/>
+                        <img src="" alt=""/>
                         <div className={'mei-upload-list-item-mask' + disabledClass}>
                             <Icon type="eye-o" onClick={this.handleShowAloneFilePriviewModal.bind(this, dataImgUrl)} />
                             <Icon type="delete" onClick={this.handleRemoveAloneFile.bind(this)}/>
@@ -376,7 +363,7 @@ class MeiUpload extends BaseComponent{
                     uploadComponent = 
                             <Upload {...props} >
                                 <Icon type="plus" />
-                                <div className="mei-upload-text">上传照片</div>
+                                <div className="mei-upload-text">上传文件</div>
                                 {aloneThumbComponent}
                             </Upload>
                 }else{
@@ -384,7 +371,7 @@ class MeiUpload extends BaseComponent{
                         uploadComponent = 
                             <Upload {...props} >
                                 <Icon type="plus" />
-                                <div className="mei-upload-text">上传照片</div>
+                                <div className="mei-upload-text">上传文件</div>
                                 {aloneThumbComponent}
                             </Upload>
                     }
@@ -394,7 +381,7 @@ class MeiUpload extends BaseComponent{
 		if(tip){
 			uploadTipComponent = <div className="mei-upload-tip"><Icon type="info-circle-o" />{tip}</div>
 		}
-        if(0 && this.state.percent > 0 && this.state.percent < 100){
+        if(this.state.percent > 0 && this.state.percent < 100){
             progressComponent = 
                 <div 
                     className="mei-upload-progress"> 
@@ -416,7 +403,13 @@ class MeiUpload extends BaseComponent{
 		        	visible={this.state.priviewVisible}
 		        	footer={null}
 		        	onCancel={this.handleHiddenAloneFilePriviewModal.bind(this)}>
-		          	<img alt="actImg" src={this.state.priviewImage} />
+                    <video 
+                        controls="controls"
+                        autoPlay={true}
+                        style={{display: 'block',maxWidth: '100%', maxHeight: '100%', margin: '0 auto'}}
+                        src={this.state.priviewImage}
+                    >
+                    </video>
 		        </Modal>
 		    </div>
 
@@ -424,4 +417,4 @@ class MeiUpload extends BaseComponent{
     }
 };
 
-export default MeiUpload;
+export default MeiFile;
