@@ -10,10 +10,13 @@ import RetrieveReq from './PintuanRetrieveReq';
 import DeleteReq from './PintuanDeleteReq';
 import DetailReq from './PintuanDetailReq';
 
+let GetpageReq = RetrieveReq;
+
 export {
     CreateReq,
     UpdateReq,
     RetrieveReq,
     DeleteReq,
-    DetailReq
+    DetailReq,
+    GetpageReq,
 };

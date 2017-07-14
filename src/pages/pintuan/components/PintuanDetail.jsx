@@ -4,7 +4,7 @@ import { BaseDetail } from '../../../base/';
 /**
  * 详情组件
  */
-class [MODULE]Detail extends BaseDetail {
+class PintuanDetail extends BaseDetail {
     constructor(props) {
     	super(props);
     }
@@ -20,4 +20,4 @@ class [MODULE]Detail extends BaseDetail {
     }
 };
 
-export default [MODULE]Detail;
+export default PintuanDetail;

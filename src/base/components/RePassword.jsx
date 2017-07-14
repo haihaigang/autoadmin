@@ -3,14 +3,14 @@ import {Modal, Form, Input, Row, Col, Button } from 'antd';
 import MeiFormMixin from '../mixins/MeiFormMixin';
 const FormItem = Form.Item;
 
-var App = React.createClass({
-  mixins: [MeiFormMixin],
+class App extends BaseComponent{
   componentWillReceiveProps(nextProps) {
     //接收父组件的值
       if(typeof nextProps.visible != 'undefined' && !nextProps.visible){
         this.props.form.resetFields()//只可以在view里使用
       }  
-  },
+  }
+
   handleSubmit() {
     this.props.form.validateFields((errors, values) => {
       if (!!errors) {
@@ -22,18 +22,20 @@ var App = React.createClass({
         this.props.onSubmit(formData);
         
     });
-  },
+  }
+
   onCancel(){
     this.props.form.resetFields();
     this.props.onCancel();
-  },
+  }
+
   checkPass(rule, value, callback) {
     const { validateFields } = this.props.form;
     if (value) {
         validateFields(['rePassword'], { force: true});
     }
     callback();
-  },
+  }
 
   checkPass2(rule, value, callback) {
     const { getFieldValue } = this.props.form;
@@ -42,7 +44,8 @@ var App = React.createClass({
     } else {
       callback();
     }
-  },
+  }
+
   render() {
     const formItemLayout = {
         labelCol: { span: 8 },
@@ -98,7 +101,7 @@ var App = React.createClass({
       </Modal>
     );
   }
-});
+};
 
 App = Form.create()(App);
 

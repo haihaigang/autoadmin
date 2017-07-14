@@ -2,19 +2,10 @@
 //require('../scss/[MODULE].scss');
 
 import React from 'react';
-import BaseApp from '../../../base/containers/BaseApp';
+import { BaseApp, MeiSidebar, MeiSidebarBar, MeiList, MeiPagination, MeiAdd, MeiColumn, MeiMenu, MeiMenuFunc, MeiChangePassword } from '../../../base/';
+
 import [MODULE]Store from '../stores/[MODULE]Store';
 import [MODULE]Actions from '../actions/[MODULE]Actions';
-
-import MeiSidebar from '../../../base/components/MeiSidebar';
-import MeiSidebarBar from '../../../base/components/MeiSidebarBar';
-import MeiList from '../../../base/components/MeiList';
-import MeiPagination from '../../../base/components/MeiPagination';
-import MeiAdd from '../../../base/components/MeiAdd';
-import MeiColumn from '../../../base/components/MeiColumn';
-import MeiMenu from '../../../base/components/MeiMenu';
-import MeiMenuFunc from '../../../base/components/MeiMenuFunc';
-import MeiChangePassword from '../../../base/components/MeiChangePassword';
 
 import [MODULE]Form from '../components/[MODULE]Form';
 import [MODULE]Detail from '../components/[MODULE]Detail';
@@ -31,6 +22,9 @@ class [MODULE]App extends BaseApp{
 
     componentDidMount() {
         super.componentDidMount();
+        
+        this._action.getMenuList2();
+        this._action.search();
     }
 
     componentWillUnmount() {
@@ -75,9 +69,7 @@ class [MODULE]App extends BaseApp{
                             {...this.state.search} 
                             onSearch={[MODULE]Actions.search.bind([MODULE]Actions)} />
                         <MeiList
-                            {...this.state.search}
-                            columns={this.state.columns}
-                            dataSource={this.state.dataSource}
+                            {...this.state.list}
                             onColumnEdit={[MODULE]Actions.toggleColumnDialog.bind([MODULE]Actions,true)}
                             onOperateClick={[MODULE]Actions.handleOperateClick.bind([MODULE]Actions)}/>
                         <MeiPagination 

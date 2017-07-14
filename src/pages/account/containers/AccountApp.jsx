@@ -1,13 +1,10 @@
 require('../scss/index.scss');
 
 import React from 'react'
-import { withRouter } from 'react-router-dom';
-import BaseApp from '../../../base/containers/BaseApp';
+import { BaseApp, Storage, Tools } from '../../../base/';
 import AccountStore from '../stores/AccountStore';
 import AccountActions from '../actions/AccountActions';
 import MeiForm from '../components/MeiForm';
-import Storage from '../../../base/utils/Storage'
-import Tools from '../../../base/utils/Tools'
 import BaseConfig from '../../../config/BaseConfig'
 
 /**

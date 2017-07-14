@@ -1,5 +1,4 @@
-import CurdReq from "../../../base/reqs/CurdReq";
-// import AccountLoginReq from "../../../robots/account/reqs/AccountLoginReq";
+import { CurdReq } from '../../../base/';
 
 class AccountReq extends CurdReq {
     /**

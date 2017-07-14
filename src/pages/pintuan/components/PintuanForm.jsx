@@ -5,7 +5,7 @@ import { BaseForm } from '../../../base/';
 /**
  * 表单组件
  */
-class [MODULE]Form extends BaseForm {
+class PintuanForm extends BaseForm {
     constructor(props) {
     	super(props);
     }
@@ -22,6 +22,6 @@ class [MODULE]Form extends BaseForm {
 };
 
 // 这里需要保留在子类初始化，保证form的相关属性能初始化在当前组件上
-[MODULE]Form = Form.create()([MODULE]Form);
+PintuanForm = Form.create()(PintuanForm);
 
-export default [MODULE]Form;
+export default PintuanForm;

@@ -1,68 +1,42 @@
 //TODO 按需引入你的样式
 //require('../scss/Pintuan.scss');
-import React from 'react'
-import BaseApp from '../../../base/containers/BaseApp';
+
+import React from 'react';
+import { BaseApp, MeiSidebar, MeiSidebarBar, MeiList, MeiPagination, MeiAdd, MeiColumn, MeiMenu, MeiMenuFunc, MeiChangePassword } from '../../../base/';
+
 import PintuanStore from '../stores/PintuanStore';
 import PintuanActions from '../actions/PintuanActions';
-import MeiSidebar from '../../../base/components/MeiSidebar';
-import MeiSidebarBar from '../../../base/components/MeiSidebarBar';
-import MeiList from '../../../base/components/MeiList';
-import MeiPagination from '../../../base/components/MeiPagination';
-import MeiAdd from '../../../base/components/MeiAdd';
-import MeiColumn from '../../../base/components/MeiColumn';
-import MeiForm from '../../../base/components/MeiForm';
-import MeiSearch from '../../../base/components/MeiSearch';
-import MeiMenu from '../../../base/components/MeiMenu'
 
+import PintuanForm from '../components/PintuanForm';
+import PintuanDetail from '../components/PintuanDetail';
+import PintuanSearch from '../components/PintuanSearch';
 
 /**
- * Retrieve the current data from the TodoStore
+ * 容器组件-Pintuan
  */
-function getAppState() {
-    return {
-        dataSource: PintuanStore.getData(),
-        columns: PintuanStore.getColumns(),
-        pagination: PintuanStore.getPage(),
-        menu: {
-            // data: PintuanStore.getMenuData()
-            data: PintuanStore.getSubMenus()
-        },
-        sidebar: {
-            data: PintuanStore.getSubMenus(),
-            current: PintuanStore.getCurSidebar(),
-            status: PintuanStore.getSidebarStatus()
-        },
-        form: {
-            visible: PintuanStore.getFormVisible(),
-            data: PintuanStore.getFormData(),
-            isSaving: PintuanStore.getSaving(),
-        },
-        column: {
-            visible: PintuanStore.getColumnVisible(),
-            data: PintuanStore.getColumns()
-        },
-        search: {
-            conditions: PintuanStore.getConditions()
-        }
-    };
-}
-
-
 class PintuanApp extends BaseApp{
 	constructor(props){
-		super(props);
+		super(props, PintuanStore, PintuanActions);
 
-		this.state = getAppState();
 	}
 
     componentDidMount() {
-        PintuanStore.addChangeListener(this._onChange.bind(this));
-        PintuanActions.getMenuList2();
-        PintuanActions.search();
+        super.componentDidMount();
+        
+        this._action.getMenuList2();
+        this._action.search();
     }
 
     componentWillUnmount() {
-        PintuanStore.removeChangeListener(this._onChange);
+        super.componentWillUnmount();
+    }
+
+    /**
+     * 可以添加或修改自定义的state数据
+     * @return {[type]} [description]
+     */
+    getAppState(){
+        return super.getAppState();
     }
 
     /**
@@ -71,7 +45,18 @@ class PintuanApp extends BaseApp{
     render() {
         return(
             <div>
-                <MeiMenu {...this.state.menu} />
+                <MeiMenu
+                    {...this.state.menu}
+                    onAvatarClick={PintuanActions.handleAvatarClick.bind(PintuanActions)}/>
+                <MeiMenuFunc
+                    visible={this.state.menuFuncVisible}
+                    onShowPassword={PintuanActions.toggleChangePassword.bind(PintuanActions)}
+                    onLogout={PintuanActions.logout.bind(PintuanActions)}
+                    onClear={PintuanActions.handleClear.bind(PintuanActions)} />
+                <MeiChangePassword
+                    visible={this.state.passwordVisible}
+                    onCancel={PintuanActions.toggleChangePassword.bind(PintuanActions, false)}
+                    onSubmit={PintuanActions.changePassword.bind(PintuanActions)} />
                 <div className="mei-container">
                     <MeiSidebar 
                         {...this.state.sidebar} 
@@ -80,24 +65,29 @@ class PintuanApp extends BaseApp{
                         <MeiSidebarBar 
                             {...this.state.sidebar}
                             onClick={PintuanActions.changeSidebarStatus.bind(PintuanActions)}/>
-                        <MeiSearch 
+                        <PintuanSearch 
                             {...this.state.search} 
                             onSearch={PintuanActions.search.bind(PintuanActions)} />
                         <MeiList
-                            extra="has-search"
-                            columns={this.state.columns}
-                            dataSource={this.state.dataSource}
+                            {...this.state.list}
                             onColumnEdit={PintuanActions.toggleColumnDialog.bind(PintuanActions,true)}
                             onOperateClick={PintuanActions.handleOperateClick.bind(PintuanActions)}/>
                         <MeiPagination 
                             {...this.state.pagination} 
                             onChange={PintuanActions.search.bind(PintuanActions)}/>
                         <MeiAdd onClick={PintuanActions.toggleFormDialog.bind(PintuanActions, true)}/>
-                        <MeiForm 
+                        <PintuanForm 
                             {...this.state.form} 
                             onSave={PintuanActions.save.bind(PintuanActions)} 
                             onCancel={PintuanActions.toggleFormDialog.bind(PintuanActions, false)}
-                            onDataChange={PintuanActions.updateFormData.bind(PintuanActions)}/>
+                            onDataChange={PintuanActions.updateFormData.bind(PintuanActions)}
+                            onFieldsChange={PintuanActions.updateFieldsData.bind(PintuanActions)}
+                            />
+                        <PintuanDetail
+                            {...this.state.detail}
+                            onCancel={PintuanActions.toggleDetailDialog.bind(PintuanActions, false)}
+                            />
+                            }
                         <MeiColumn 
                             {...this.state.column} 
                             onSave={PintuanActions.saveColumn.bind(PintuanActions)} 
@@ -106,13 +96,6 @@ class PintuanApp extends BaseApp{
                 </div>
             </div>
         );
-    }
-
-    /**
-     * Event handler for 'change' events coming from the PintuanStore
-     */
-    _onChange() {
-        this.setState(getAppState());
     }
 }
 

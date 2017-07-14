@@ -4,7 +4,6 @@ import React from 'react';
 import { Modal, Message, Upload, Icon, Progress } from 'antd';
 import BaseConfig from '../../config/BaseConfig';
 import Storage from '../utils/Storage';
-import MeiDraggableMixin from '../mixins/MeiDraggableMixin'
 import BaseComponent from './BaseComponent'
 
 /**
@@ -56,17 +55,6 @@ class MeiFile extends BaseComponent{
         this.hasDragChild = true;
     }
 
-	// propTypes: {
-	// 	isMultiple: React.PropTypes.bool,
- //        isHideOperate: React.PropTypes.bool,
- //        disabled: React.PropTypes.bool,
-	// 	isCanAloneRemove: React.PropTypes.bool,
-	// 	className: React.PropTypes.string,
-	// 	tip: React.PropTypes.string,
-	// 	handleImageChange: React.PropTypes.func,
-	// 	handleRemoveAloneFile: React.PropTypes.func,
-	// },
- //    mixins: [MeiDraggableMixin],
     /**
      * 打开单图模式的图片预览框
      */

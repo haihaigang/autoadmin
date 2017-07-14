@@ -1,12 +1,11 @@
 import '../scss/components/column.scss';
 
-import React from 'react'
+import React from 'react';
 import {
     Modal, Form, Input, Button, Checkbox, Radio, Tooltip, Icon
 }
-from 'antd' 
-import MeiDraggableMixin from '../mixins/MeiDraggableMixin'
-import BaseComponent from './BaseComponent'
+from 'antd';
+import BaseComponent from './BaseComponent';
 
 /**
  * 编辑表头组件

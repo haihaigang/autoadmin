@@ -1,4 +1,4 @@
-import CurdReq from '../../../base/reqs/CurdReq'
+import { CurdReq } from '../../../base/';
 import { CreateReq, UpdateReq, RetrieveReq, DeleteReq, DetailReq, GetpageReq, GetdetailReq } from '../../../robots/[MODULEPATH]/reqs/[MODULE]Curds';
 
 /**

@@ -1,6 +1,6 @@
 // flux
-import BaseAction from './actions/BaseActions.js';
-import BaseStores from './stores/BaseStore.js';
+import BaseActions from './actions/BaseActions.js';
+import BaseStore from './stores/BaseStore.js';
 import BaseConstants from './constants/BaseConstants.js';
 
 // custom
@@ -18,7 +18,7 @@ import CommonReq from './reqs/CommonReq.js';
 // app
 import BaseApp from './containers/BaseApp.jsx';
 import HomeApp from './containers/HomeApp.jsx';
-import NotFoundApp from './containers/NotFound.jsx';
+import NotFoundApp from './containers/NotFoundApp.jsx';
 
 // components
 import BaseComponent from './components/BaseComponent.js';

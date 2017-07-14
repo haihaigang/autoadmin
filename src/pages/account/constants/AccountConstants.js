@@ -1,6 +1,6 @@
 import keyMirror from 'keymirror';
 import assign from 'object-assign';
-import BaseConstants from '../../../base/constants/BaseConstants';
+import { BaseConstants } from '../../../base/';
 
 export default assign({}, BaseConstants, keyMirror({
     SIGNIN: null,

@@ -1,5 +1,5 @@
-import React from 'react'
-import OPERATE_TYPE from '../../../base/constants/OperateTypeConstants'
+import React from 'react';
+import { OPERATE_TYPE } from '../../../base/';
 
 /**
  * 表头对应的展示形式关系表

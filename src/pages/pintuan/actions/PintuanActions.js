@@ -1,15 +1,19 @@
-import BaseActions from '../../../base/actions/BaseActions';
-import PintuanReq from '../reqs/PintuanReq';
+
+import { BaseActions } from '../../../base/';
 import PintuanDispatcher from '../dispatcher/PintuanDispatcher';
 import PintuanConstants from '../constants/PintuanConstants';
+import PintuanReq from '../reqs/PintuanReq';
 
-class ActivityActions extends BaseActions {
+/**
+ * flux-action
+ */
+class PintuanActions extends BaseActions {
     constructor() {
         super(PintuanReq, PintuanDispatcher, PintuanConstants);
     }
 
-    //TODO 自定义一些代码
+    //TODO do yourself
 
 }
 
-export default new ActivityActions();
+export default new PintuanActions();

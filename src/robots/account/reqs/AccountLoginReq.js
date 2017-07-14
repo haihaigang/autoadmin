@@ -1,4 +1,4 @@
-import BaseRobotReq from "../../../base/reqs/BaseRobotReq";
+import { BaseRobotReq } from "../../../base/";
 
 /**
  * 生成时间：2017.03.20 11:22:33

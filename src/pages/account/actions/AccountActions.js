@@ -1,15 +1,11 @@
 import {
     Message
 }
-from 'antd'
+from 'antd';
+import { Storage, Cookie, Tools, BaseActions } from '../../../base/';
 import AccountDispatcher from '../dispatcher/AccountDispatcher'
 import AccountConstants from '../constants/AccountConstants'
 import AccountReq from '../reqs/AccountReq'
-import Storage from '../../../base/utils/Storage'
-import Cookie from '../../../base/utils/Cookie'
-import Tools from '../../../base/utils/Tools'
-import BaseConfig from '../../../config/BaseConfig'
-import BaseActions from '../../../base/actions/BaseActions'
 
 class AccountActions extends BaseActions {
     constructor() {

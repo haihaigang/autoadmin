@@ -1,11 +1,10 @@
+import { BaseStore } from '../../../base/';
+import AccountConstants from '../constants/AccountConstants';
+import AccountDispatcher from '../dispatcher/AccountDispatcher';
+
 /*
  * Store
  */
-
-import AccountConstants from '../constants/AccountConstants';
-import AccountDispatcher from '../dispatcher/AccountDispatcher';
-import BaseStore from '../../../base/stores/BaseStore';
-
 class MainStore extends BaseStore {
     constructor() {
         super(AccountDispatcher, AccountConstants);

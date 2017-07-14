@@ -6,7 +6,7 @@ import { BaseSearch } from '../../../base/';
 /**
  * 搜索组件
  */
-class [MODULE]Search extends BaseSearch{
+class PintuanSearch extends BaseSearch{
     constructor(props) {
         super(props);
     }
@@ -28,6 +28,6 @@ class [MODULE]Search extends BaseSearch{
 };
 
 // 这里需要保留在子类初始化，保证form的相关属性能初始化在当前组件上
-[MODULE]Search = Form.create()([MODULE]Search);
+PintuanSearch = Form.create()(PintuanSearch);
 
-export default [MODULE]Search;
+export default PintuanSearch;

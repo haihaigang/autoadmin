@@ -1,6 +1,8 @@
+
 import [MODULE]App from './containers/[MODULE]App'
+import BaseConfig from '../../config/BaseConfig'
 
 export default {
-    path: '/kiwi/[ROUTERPATH]/list',
+    path: BaseConfig.PATH + '/[ROUTERPATH]/list',
     component: [MODULE]App
 }

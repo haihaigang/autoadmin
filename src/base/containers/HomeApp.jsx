@@ -1,5 +1,5 @@
-import '../scss/home.scss'
-import React from 'react'
+
+import React from 'react';
 import BaseApp from './BaseApp'
 import MeiMenu from '../components/MeiMenu'
 import Storage from '../utils/Storage'

@@ -3,8 +3,8 @@
  * 可以通过node generate-router.js自动生成
  */
 export default [
-    ///pintuan
+    ///kiwi/account
+    require("./pages/account/AccountRouter.js"),
+    ///kiwi/pintuan/list
     require("./pages/pintuan/PintuanRouter.js"),
-    ///systemMenu-systemmenu/list
-    require("./pages/systemmenu/SystemMenuRouter.js"),
 ];
