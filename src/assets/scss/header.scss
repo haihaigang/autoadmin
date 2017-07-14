@@ -1,0 +1,33 @@
+.mei-header-title {
+    width: 158px;
+}
+
+.mei-header-title h1 {
+    font-size: 16px;
+    overflow: hidden;
+    line-height: 48px;
+    text-align: center;
+    background-size: 90% auto;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.mei-header-avatar {
+    padding: 8px;
+}
+
+.mei-header-avatar-img {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    border-radius: 100%;
+    text-align: center;
+    background-color: #ff8300;
+    cursor: pointer;
+}
+
+.mei-header-menu {
+    font-size: 14px;
+    overflow-y: auto;
+    flex: 1;
+}

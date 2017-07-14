@@ -9,6 +9,7 @@
 
 const fs = require('fs');
 const http = require('http');
+const json = require('./package.json');
 
 var options = {
     hostname: 'admin.shtjzy.cn',//以ip代替域名，方便本地的host随意更改

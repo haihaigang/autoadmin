@@ -1,0 +1,165 @@
+.mei-upload-file-list{
+    line-height: normal;
+}
+.mei-upload-file-list.mei-alone-mask {
+    position: relative;
+    z-index: 1;
+}
+
+.mei-upload-file-list .anticon-plus{
+    font-size: 32px;
+}
+
+.mei-upload-file{
+    position:relative;
+}
+
+.mei-upload-text{
+    margin-top: 7px;
+}
+
+.mei-upload-list-item-mask {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 3;
+    width: 78px;
+    height: 78px;
+    cursor: inherit;
+    transition: all 0.3s ease;
+    background-color: rgba(128, 128, 128, 0.65);
+    opacity: 0;
+    // display: none;
+}
+
+.mei-upload-list-item-mask:hover {
+    opacity: 1;
+}
+
+.mask-content img {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.mei-upload-list-item-mask .anticon.anticon-delete {
+    left: 50%;
+    margin-left: 6px;
+}
+
+.mei-upload-list-item-mask .anticon{
+    display: block;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 10;
+    -webkit-transition: all .3s ease;
+    transition: all .3s ease;
+    cursor: pointer;
+    font-size: 16px;
+    width: 16px;
+    line-height: 1;
+    color: #eee;
+    opacity: 1;
+    margin-top: -8px;
+    margin-left: -22px;
+}
+.mei-upload-list-item-mask .anticon:hover{
+    color: #fff;
+}
+
+.mei-upload-list-item-mask.disabled .anticon-eye-o{
+    margin-left: -8px;
+}
+.mei-upload-list-item-mask.disabled .anticon-delete{
+    display: none;
+}
+
+.mei-upload-thumb{
+    position: relative;
+    display: inline-block;
+    width: 96px;
+    height: 96px;
+    margin: 0 8px 8px 0;
+    padding: 8px;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    cursor: move;
+}
+.mei-upload-thumb.dragged{
+    opacity: 0.5;
+}
+.mei-upload-thumb.active{
+    border: dashed 1px #ff8300;
+    // background-color: #ff8300;
+}
+.mei-upload-thumb.active img{
+    opacity: 0.5;
+}
+.mei-upload-thumb.can-alone-remove{
+    position: absolute;
+    top: -1px;
+    left: -1px;
+    border: none;
+}
+
+.mei-upload-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+
+.mei-upload-tip {
+    color: #b9b9b9;
+}
+
+.mei-show-upload {
+    position: relative;
+    display: inline-block;
+    height: 96px;
+    width: 96px;
+    padding: 8px;
+    margin: 0 10px 10px 0;
+    border: 1px solid #d9d9d9;
+    border-radius: 6px;
+    vertical-align: top;
+}
+
+.mei-show-upload img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    position: static;
+}
+
+
+/* 上传图片的样式 */
+
+.mei-share-upload .ant-upload.ant-upload-select-picture-card {
+}
+
+.mei-img-tip {
+    color: #b9b9b9;
+}
+
+.mei-multiple-image .ant-upload-list-item {
+    float: left;
+}
+
+.mei-multiple-image .ant-upload-list-picture-card {
+    float: left;
+}
+
+.mei-upload-progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 96px;
+    height: 96px;
+    padding: 0 5px;
+    background-color: rgba(255,255,255,0.5);
+}
+.mei-upload-progress .text {
+    margin-top: 35px;
+}
