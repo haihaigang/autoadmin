@@ -7,8 +7,10 @@
     "dev": "node server.js",
     "build": "babel ./src -d ./dist",
     "router": "node generate-router.js",
-    "deploy": "export NODE_ENV=production && node sync-version.js && rm -rf build/assets && webpack --config ./webpack.config.js --progress --profile --colors && cp -R build/* ../admin_pro/",
-    "deployforwindows": "set NODE_ENV=production && node sync-version.js && webpack --config ./webpack.config.js --progress --profile --colors"
+    "deploy": "export NODE_ENV=production && rm -rf build/assets && webpack --config ./webpack.config.js --progress --profile --colors",
+    "deployforwindows": "set NODE_ENV=production && node sync-version.js && webpack --config ./webpack.config.js --progress --profile --colors",
+    "copy": "cp -r /Users/hgwang/Documents/anywave-admin/target/js/ /Users/hgwang/Documents/anywave-web/src/robots/",
+    "up": "scp -r build/* root@114.55.250.37:/web/"
   },
   "author": "hgwang",
   "dependencies": {
@@ -42,6 +44,7 @@
     "react-router-dom": "^4.0.0",
     "sass-loader": "^6.0.3",
     "style-loader": "^0.13.1",
+    "wangeditor": "^2.1.23",
     "webpack": "^2.3.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-dev-server": "^1.14.1"

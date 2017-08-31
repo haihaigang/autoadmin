@@ -4,6 +4,16 @@
 
 react + react-router4 + flux + antd + webpack2 + es6
 
+## 脚本说明
+
+1. npm run dev 运行
+* npm run deploy 打包代码
+* npm run copy 拷贝代码
+* npm run up 上传打包代码
+* node generate-module.js 生成模块代码
+* node generate-router.js 生成路由
+* node create-module.js 创建新的模块
+
 ## 功能说明
 
 1. 能通过接口多次生成以下基本的代码

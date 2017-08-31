@@ -50,17 +50,7 @@ var server = new WebpackDevServer(compiler, {
             rewrite: function(req) {
                 req.url = req.url.replace(/^\/api/, '');
             }
-        },
-        '/php/*': {
-            target: 'http://admin.meigo.com',
-            secure: false,
-            headers: {
-                "host": "admin.meigo.com"
-            },
-            rewrite: function(req) {
-                //req.url = req.url.replace(/^\/php/, '');
-            }
-        },
+        }
     }
 
 });

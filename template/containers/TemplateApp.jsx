@@ -21,16 +21,19 @@ import [MODULE]Detail from '../components/[MODULE]Detail';
 import [MODULE]Search from '../components/[MODULE]Search';
 
 /**
- * 容器组件-[MODULE]
+ * 容器组件-[MODULENAME]
  */
 class [MODULE]App extends BaseApp{
-	constructor(props){
-		super(props, [MODULE]Store, [MODULE]Actions);
+    constructor(props){
+        super(props, [MODULE]Store, [MODULE]Actions);
 
-	}
+    }
 
     componentDidMount() {
         super.componentDidMount();
+        
+        this._action.getMenuList2();
+        this._action.search();
     }
 
     componentWillUnmount() {
@@ -75,9 +78,7 @@ class [MODULE]App extends BaseApp{
                             {...this.state.search} 
                             onSearch={[MODULE]Actions.search.bind([MODULE]Actions)} />
                         <MeiList
-                            {...this.state.search}
-                            columns={this.state.columns}
-                            dataSource={this.state.dataSource}
+                            {...this.state.list}
                             onColumnEdit={[MODULE]Actions.toggleColumnDialog.bind([MODULE]Actions,true)}
                             onOperateClick={[MODULE]Actions.handleOperateClick.bind([MODULE]Actions)}/>
                         <MeiPagination 
@@ -95,7 +96,6 @@ class [MODULE]App extends BaseApp{
                             {...this.state.detail}
                             onCancel={[MODULE]Actions.toggleDetailDialog.bind([MODULE]Actions, false)}
                             />
-                            }
                         <MeiColumn 
                             {...this.state.column} 
                             onSave={[MODULE]Actions.saveColumn.bind([MODULE]Actions)} 
