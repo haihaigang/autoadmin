@@ -266,18 +266,13 @@ class MeiUpload extends BaseComponent{
     render() {
         const { isMultiple, disabled, isCanAloneRemove, className, dataSource, tip } = this.props;
         const uploadUrl = BaseConfig.HOST + '/images/upload';
-        const previewUrl = BaseConfig.PREVIEW_HOST_IMG + '/image/';
+        const previewUrl = BaseConfig.PREVIEW_HOST_IMG + '/images/get/';
         let maskAloneClassName = 'mei-upload-file-list clearfix' + (isMultiple ? '' : ' mei-alone-mask') + (className ? ' ' + className : '');
         let dataImgUrl = '';
         let dataList = [];
 
         if (dataSource && typeof dataSource == "string") {
-            if(dataSource.length == 40){
-                // 约定当长度为36时表示是使用图片ID
-                dataImgUrl = previewUrl + dataSource;
-            }else{
-                dataImgUrl = dataSource;
-            }
+            dataImgUrl = previewUrl + dataSource;
         } else if (dataSource instanceof Array) {
             dataList = this.processDataSource(dataSource);
         }

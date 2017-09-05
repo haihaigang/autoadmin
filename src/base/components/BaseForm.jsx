@@ -129,7 +129,7 @@ class BaseForm extends BaseFormComponent {
 					dom = <MeiUpload
 							isCanAloneRemove={true}
 							handleImageChange={handleImageChange}
-							handleRemoveAloneFile={this.handleRemoveAloneFile}
+							handleRemoveAloneFile={handleRemoveAloneFile}
 							dataSource={data[item.key]}
 							tip="图片尺寸：750x316"
 							disabled={item.readonly}>
