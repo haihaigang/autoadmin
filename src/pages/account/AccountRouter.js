@@ -1,6 +1,7 @@
 import AccountApp from './containers/AccountApp'
+import BaseConfig from '../../config/BaseConfig'
 
 export default {
-    path: '/kiwi/account',
+	path: BaseConfig.PATH + '/account',
     component: AccountApp
 }
