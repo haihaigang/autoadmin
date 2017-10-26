@@ -11,6 +11,7 @@ import 'moment/locale/zh-cn'
 import ChildRouter from './router'
 import HomeApp from './base/containers/HomeApp'
 import MeiNotFound from './base/containers/MeiNotFound'
+import BaseConfig from './config/BaseConfig'
 
 //添加一些antd全局的配置
 Message.config({
@@ -20,8 +21,8 @@ Message.config({
 ReactDom.render(
     <Router>
         <Switch>
-            <Route exact path="/kiwi" component={HomeApp} />
-            <Route exact path="/kiwi/dashboard" component={HomeApp} />
+            <Route exact path={BaseConfig.PATH} component={HomeApp} />
+            <Route exact path={BaseConfig.PATH + "/dashboard"} component={HomeApp} />
             {ChildRouter.map((item, i) => (
                 <Route key={i} path={item.path} component={item.component} />
             ))}
