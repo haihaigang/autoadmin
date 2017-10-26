@@ -1,5 +1,5 @@
 .mei-search {
-	height: 58px;
+    height: 58px;
     overflow: hidden;
     margin-bottom: 8px;
     padding: 4px 8px 8px;
@@ -11,10 +11,14 @@
     padding-right: 8px;
 }
 
-.mei-search-item label {
+.mei-search-item > label {
     display: block;
 }
 
 .mei-search-item button {
     margin-right: 8px;
+}
+
+.mei-search-item .ant-radio-group {
+    margin-top: 5px;
 }
