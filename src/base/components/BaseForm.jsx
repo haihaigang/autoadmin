@@ -70,7 +70,7 @@ class BaseForm extends BaseFormComponent {
 
     	return fields.map((item, i) => {
     		let decorator = this.getFormField(item.key, {
-    			initialValue: data[item.key] || item.defaultValue
+    			initialValue: typeof data[item.key] != 'undefined' ? data[item.key] || item.defaultValue
     		});
     		let dom = <Input placeholder={item.placeholder} />
 
