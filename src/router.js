@@ -4,7 +4,5 @@
  */
 export default [
     ///pintuan
-    require("./pages/pintuan/PintuanRouter.js"),
-    ///systemMenu-systemmenu/list
-    require("./pages/systemmenu/SystemMenuRouter.js"),
+    require("./pages/demo/PintuanRouter.js"),
 ];
