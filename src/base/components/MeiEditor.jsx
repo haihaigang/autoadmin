@@ -31,7 +31,7 @@ class MeiEditor extends BaseComponent {
         this.editor.config.uploadImgUrl = BaseConfig.HOST + '/images/upload';
 
         this.editor.config.uploadHeaders = {
-            'X-Auth-Token': Storage.get('User').accessToken
+            'X-Auth-Token': Storage.get('User') ? Storage.get('User').accessToken : ''
         };
         // 自定义load事件
         this.editor.config.uploadImgFns.onload = function(resultText, xhr) {

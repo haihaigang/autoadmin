@@ -341,7 +341,7 @@ var App = React.createClass({
 			onChange: this.handleUploadChange,
 			className: "mei-list-upload",
 			headers: {
-				'X-Auth-Token': Storage.get('User').accessToken
+				'X-Auth-Token': Storage.get('User') ? Storage.get('User').accessToken : ''
 			}
 		};
 
