@@ -76,7 +76,8 @@ class [MODULE]App extends BaseApp{
                             onClick={[MODULE]Actions.changeSidebarStatus.bind([MODULE]Actions)}/>
                         <[MODULE]Search 
                             {...this.state.search} 
-                            onSearch={[MODULE]Actions.search.bind([MODULE]Actions)} />
+                            onSearch={[MODULE]Actions.search.bind([MODULE]Actions)}
+                            onFieldsChange={[MODULE]Actions.updateFieldsData.bind([MODULE]Actions)} />
                         <MeiList
                             {...this.state.list}
                             onColumnEdit={[MODULE]Actions.toggleColumnDialog.bind([MODULE]Actions,true)}
