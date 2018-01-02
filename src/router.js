@@ -3,6 +3,8 @@
  * 可以通过node generate-router.js自动生成
  */
 export default [
-    ///pintuan
-    require("./pages/demo/PintuanRouter.js"),
+    //path: BaseConfig.PATH + '/account
+    require("./pages/account/AccountRouter.js"),
+    //path: BaseConfig.PATH + '/demo/list
+    require("./pages/demo/DemoRouter.js"),
 ];
