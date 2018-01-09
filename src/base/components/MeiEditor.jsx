@@ -66,6 +66,9 @@ class MeiEditor extends BaseComponent {
         if (nextProps.content && this.props.id != nextProps.id) {
             this.editor.$txt.html(nextProps.content);
         }
+        if (!nextProps.content) {
+            this.editor.$txt.html('<p><br></p>');
+        }
     }
 
     render() {
